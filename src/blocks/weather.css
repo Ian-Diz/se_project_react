@@ -1,0 +1,17 @@
+.weather {
+  margin: 0;
+}
+
+.weather__banner {
+  background-image: url(../images/DSunny.png);
+  width: 1360px;
+  height: 80px;
+}
+
+.weather__temp {
+  font-weight: 700;
+  font-size: 36px;
+  margin: 0 0 0 20px;
+  padding: 20px 0 0 0;
+  color: #fff;
+}
