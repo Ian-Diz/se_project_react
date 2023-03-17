@@ -13,7 +13,7 @@ const ClothingCard = ({ card, onCardClick }) => {
     return () => {
       test.current.removeEventListener("click", onCardClick);
     };
-  }, []);
+  });
 
   return (
     <>

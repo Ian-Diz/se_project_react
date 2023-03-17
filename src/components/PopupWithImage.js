@@ -2,16 +2,20 @@ import React from "react";
 import closeIcon from "../images/Union.svg";
 
 const PopupWithImage = ({ card, onClose }) => {
-  React.useEffect((evt) => {
+  //const popup = document.querySelector(".popup__container");
+
+  React.useEffect(() => {
     window.addEventListener("keydown", onClose);
+    //popup.addEventListener("click", onClose);
 
     return () => {
       window.removeEventListener("keydown", onClose);
+      //popup.removeEventListener("click", onClose);
     };
   });
   return (
     <>
-      <div className="popup__container popup_opened " id="imagePopup">
+      <div className="popup__container popup_opened" id="imagePopup">
         <div className="popup__photo">
           <img
             src={card.link}

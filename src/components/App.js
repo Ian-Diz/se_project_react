@@ -15,15 +15,16 @@ const App = () => {
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   const handleCardClick = (card) => {
-    console.log("hai");
     setSelectedCard(card);
     console.log(selectedCard);
-    setActivePopup("preview");
+    setActivePopup("image");
     console.log(activePopup);
   };
 
   const closePopups = (evt) => {
-    if (evt.key === "Escape" || evt.target === evt.currentTarget) {
+    if (evt.key === "Escape") {
+      setActivePopup();
+    } else if (evt.target === evt.currentTarget) {
       setActivePopup();
     }
   };
