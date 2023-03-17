@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
-import defaultClothing from "./DefaultClothing";
+import DefaultClothing from "./DefaultItems";
 import { getWeather, filterData } from "../utils/weatherApi";
 import { apiKey, lagitude, longitude } from "../utils/constants";
 
@@ -40,7 +40,7 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
-    setClothingCards(defaultClothing);
+    setClothingCards(DefaultClothing);
   }, []);
 
   return (

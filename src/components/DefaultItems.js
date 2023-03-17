@@ -1,4 +1,4 @@
-const defaultClothing = [
+const DefaultClothing = [
   {
     _id: 0,
     name: "Cap",
@@ -37,4 +37,4 @@ const defaultClothing = [
   },
 ];
 
-export default defaultClothing;
+export default DefaultClothing;
