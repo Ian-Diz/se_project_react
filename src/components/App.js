@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
-import defaultClothing from "./defaultClothing";
+import defaultClothing from "./DefaultClothing";
 import { getWeather, filterData } from "../utils/weatherApi";
 import { apiKey, lagitude, longitude } from "../utils/constants";
 
