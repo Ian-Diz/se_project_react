@@ -1,20 +1,23 @@
 import React from "react";
+import { useRef } from "react";
 
 const ClothingCard = ({ card, onCardClick }) => {
+  const test = useRef(null);
+
   const backgroundImage = {
     backgroundImage: `url(${card.link})`,
   };
 
   React.useEffect(() => {
-    ?.addEventListener("click", onCardClick);
+    test.current.addEventListener("click", onCardClick);
     return () => {
-      element.removeEventListener("click", onCardClick);
+      test.current.removeEventListener("click", onCardClick);
     };
   }, []);
 
   return (
     <>
-      <div className="card" style={backgroundImage}>
+      <div className="card" ref={test} style={backgroundImage}>
         <p className="card__name">{card.name}</p>
       </div>
     </>
