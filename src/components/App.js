@@ -16,9 +16,7 @@ const App = () => {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-    console.log(selectedCard);
     setActivePopup("image");
-    console.log(activePopup);
   };
 
   const closePopups = (evt) => {
@@ -47,14 +45,19 @@ const App = () => {
 
   return (
     <>
-      <Header weatherData={weatherData} />
+      <Header
+        weatherData={weatherData}
+        handleClick={() => {
+          setActivePopup("add");
+        }}
+      />
       <Main
         weatherData={weatherData}
         cards={clothingCards}
         onCardClick={handleCardClick}
       />
       <Footer />
-      {activePopup === "create" && (
+      {activePopup === "add" && (
         <PopupWithForm
           title="New garment"
           name="add"

@@ -1,21 +1,27 @@
 import React from "react";
+import { useRef } from "react";
 import closeIcon from "../images/Union.svg";
 
 const PopupWithImage = ({ card, onClose }) => {
-  //const popup = document.querySelector(".popup__container");
+  const exit = useRef(null);
+  const popup = useRef(null);
 
   React.useEffect(() => {
     window.addEventListener("keydown", onClose);
-    //popup.addEventListener("click", onClose);
+    exit.current.addEventListener("click", onClose);
+    popup.current.addEventListener("mousedown", onClose);
 
     return () => {
       window.removeEventListener("keydown", onClose);
-      //popup.removeEventListener("click", onClose);
     };
   });
   return (
     <>
-      <div className="popup__container popup_opened" id="imagePopup">
+      <div
+        className="popup__container popup_opened"
+        id="imagePopup"
+        ref={popup}
+      >
         <div className="popup__photo">
           <img
             src={card.link}
@@ -28,10 +34,11 @@ const PopupWithImage = ({ card, onClose }) => {
               alt="Close button image"
               src={closeIcon}
               id="imagePopup-close"
+              ref={exit}
             />
           </button>
           <h2 className="popup__title">{card.name}</h2>
-          <p className="popup__title popup__weather">{card.weather}</p>
+          <p className="popup__title popup__weather">Weather: {card.weather}</p>
         </div>
       </div>
     </>

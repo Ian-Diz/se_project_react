@@ -46,7 +46,12 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
-  margin: 8px 0 0 0;
+  margin: 9px 0 0 0;
+}
+
+.header__add:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .header__name {
