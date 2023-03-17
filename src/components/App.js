@@ -4,9 +4,13 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
-import DefaultClothing from "./DefaultItems";
 import { getWeather, filterData } from "../utils/weatherApi";
-import { apiKey, lagitude, longitude } from "../utils/constants";
+import {
+  apiKey,
+  lagitude,
+  longitude,
+  defaultClothing,
+} from "../utils/constants";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
@@ -40,7 +44,7 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
-    setClothingCards(DefaultClothing);
+    setClothingCards(defaultClothing);
   }, []);
 
   return (
