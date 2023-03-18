@@ -1,18 +1,16 @@
 import React from "react";
 import closeIcon from "../images/Union.svg";
 
-const PopupWithForm = ({ title, name, buttonText, onClose, children }) => {
-  const clickOutClose = (evt) => {
-    if (evt.target === evt.currentTarget) {
-      onClose();
-    }
-  };
-
+const PopupWithForm = ({
+  title,
+  name,
+  buttonText,
+  onClose,
+  children,
+  onOutClick,
+}) => {
   return (
-    <div
-      className={`popup__container popup_type_${name}`}
-      onClick={clickOutClose}
-    >
+    <div className={`popup__container popup_type_${name}`} onClick={onOutClick}>
       <form className="popup__form" name={name}>
         <fieldset className="popup__fieldset">
           <button type="button" className="popup__button" aria-label="Close">

@@ -27,12 +27,18 @@ const App = () => {
     setActivePopup("add");
   };
 
-  const closePopups = (evt) => {
+  const closePopups = () => {
     setActivePopup();
   };
 
-  const escClosePopup = (evt) => {
+  const closeWithEsc = (evt) => {
     if (evt.key === "Escape") {
+      setActivePopup();
+    }
+  };
+
+  const handleOutClick = (evt) => {
+    if (evt.target === evt.currentTarget) {
       setActivePopup();
     }
   };
@@ -54,10 +60,10 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
-    window.addEventListener("keydown", escClosePopup);
+    window.addEventListener("keydown", closeWithEsc);
 
     return () => {
-      window.removeEventListener("keydown", escClosePopup);
+      window.removeEventListener("keydown", closeWithEsc);
     };
   }, []);
 
@@ -76,6 +82,7 @@ const App = () => {
           name="add"
           onClose={closePopups}
           buttonText="Add garment"
+          onOutClick={handleOutClick}
         >
           <label className="popup__label">
             Name
@@ -127,7 +134,11 @@ const App = () => {
         </PopupWithForm>
       )}
       {activePopup === "image" && (
-        <PopupWithImage card={selectedCard} onClose={closePopups} />
+        <PopupWithImage
+          card={selectedCard}
+          onClose={closePopups}
+          onOutClick={handleOutClick}
+        />
       )}
     </>
   );

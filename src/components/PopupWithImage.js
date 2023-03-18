@@ -1,18 +1,12 @@
 import React from "react";
 import closeIcon from "../images/Union.svg";
 
-const PopupWithImage = ({ card, onClose }) => {
-  const clickOutClose = (evt) => {
-    if (evt.target === evt.currentTarget) {
-      onClose();
-    }
-  };
-
+const PopupWithImage = ({ card, onClose, onOutClick }) => {
   return (
     <div
       className="popup__container popup_opened"
       id="imagePopup"
-      onClick={clickOutClose}
+      onClick={onOutClick}
     >
       <div className="popup__photo">
         <img
