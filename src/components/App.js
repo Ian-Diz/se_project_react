@@ -23,10 +23,16 @@ const App = () => {
     setActivePopup("image");
   };
 
+  const handleAddClick = () => {
+    setActivePopup("add");
+  };
+
   const closePopups = (evt) => {
+    setActivePopup();
+  };
+
+  const escClosePopup = (evt) => {
     if (evt.key === "Escape") {
-      setActivePopup();
-    } else if (evt.target === evt.currentTarget) {
       setActivePopup();
     }
   };
@@ -47,14 +53,17 @@ const App = () => {
     setClothingCards(defaultClothing);
   }, []);
 
+  React.useEffect(() => {
+    window.addEventListener("keydown", escClosePopup);
+
+    return () => {
+      window.removeEventListener("keydown", escClosePopup);
+    };
+  }, []);
+
   return (
     <>
-      <Header
-        weatherData={weatherData}
-        handleClick={() => {
-          setActivePopup("add");
-        }}
-      />
+      <Header weatherData={weatherData} handleClick={handleAddClick} />
       <Main
         weatherData={weatherData}
         cards={clothingCards}
