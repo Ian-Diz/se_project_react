@@ -1,8 +1,15 @@
+import React from "react";
+import { useContext } from "react";
 import Weather from "./Weather";
 import ClothingCard from "./ClothingCard";
+import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
 
 const Main = ({ weatherData, cards, onCardClick }) => {
-  const temp = weatherData.temp;
+  const { currentTempUnit } = useContext(CurrentTempUnitContext);
+
+  if (!weatherData.temp) return null;
+
+  const temp = weatherData.temp.calc;
 
   const getTempRange = () => {
     if (temp >= 86) {
@@ -20,8 +27,9 @@ const Main = ({ weatherData, cards, onCardClick }) => {
     <main className="main">
       <Weather weatherData={weatherData} />
       <section className="main__clothing">
-        <p className="main__text">Today is {temp}°F / You may want to wear:</p>
-
+        <p className="main__text">
+          Today is {weatherData.temp[currentTempUnit]} / You may want to wear:
+        </p>
         <ul className="main__cards">
           {cards
             .filter((card) => card.weather === tempRange)

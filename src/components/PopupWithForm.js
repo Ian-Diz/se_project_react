@@ -8,10 +8,11 @@ const PopupWithForm = ({
   onClose,
   children,
   onOutClick,
+  handleSubmit,
 }) => {
   return (
-    <div className={`popup__container popup_type_${name}`} onClick={onOutClick}>
-      <form className="popup__form" name={name}>
+    <div className={`popup__container`} onClick={onOutClick}>
+      <form className="popup__form" name={name} onSubmit={handleSubmit}>
         <fieldset className="popup__fieldset">
           <button type="button" className="popup__button" aria-label="Close">
             <img

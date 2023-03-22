@@ -39,7 +39,7 @@
 }
 
 .header__add {
-  grid-column: 1/1;
+  grid-column: 2/2;
   grid-row: 1/1;
   font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   font-style: normal;
@@ -57,22 +57,35 @@
   opacity: 0.6;
 }
 
-.header__name {
-  grid-column: 2/2;
+.header__link {
+  text-decoration: none;
+  list-style-type: none;
+  grid-column: 3/3;
   grid-row: 1/1;
+  display: flex;
+  color: #000;
+}
+
+.header__link:visited {
+  color: #000;
+}
+
+.header__link:hover {
+  opacity: 0.8;
+}
+
+.header__name {
   font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 25px;
-  margin: 8px 0 0 8px;
+  margin: 8px 12px 0 8px;
 }
 
 .header__avatar {
   width: 40px;
   height: 40px;
-  grid-column: 3/3;
-  grid-row: 1/1;
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 25px;

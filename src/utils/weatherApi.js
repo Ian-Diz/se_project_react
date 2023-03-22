@@ -16,10 +16,13 @@ const filterData = (data) => {
     return null;
   }
 
-  const weather = {};
+  const weather = { temp: {} };
   weather.city = data.name;
-  weather.temp = data.main.temp;
+  weather.temp.F = `${Math.round(data.main.temp)}°F`;
+  weather.temp.C = `${Math.round(((data.main.temp - 32) * 5) / 9)}°C`;
+  weather.temp.calc = data.main.temp;
   weather.weather = data.weather[0].main;
+
   return weather;
 };
 

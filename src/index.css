@@ -6,7 +6,12 @@
 @import url(./blocks/page.css);
 @import url(./blocks/weather.css);
 @import url(./blocks/card.css);
-@import url(./blocks//popups.css);
+@import url(./blocks/switch.css);
+@import url(./blocks/profile.css);
+@import url(./blocks/popupConfirm.css);
+@import url(./blocks/popupImage.css);
+@import url(./blocks/popupForm.css);
+@import url(./blocks/popupAddItem.css);
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

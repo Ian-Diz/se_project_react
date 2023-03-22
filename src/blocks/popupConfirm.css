@@ -1,0 +1,51 @@
+.popup__confirm {
+  background-color: #fff;
+  width: 670px;
+  height: 280px;
+  border: 1px solid rgba(0, 0, 0.3);
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.popup__container_confirm {
+  text-align: center;
+}
+
+.popup__text_confirm {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2em;
+}
+
+.popup__button_confirm {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff4d00;
+  border: none;
+  background-color: #fff;
+  margin: 40px 0 0 0;
+  padding: 0;
+}
+
+.popup__button_confirm:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.popup__button_cancel {
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  background-color: #fff;
+  margin: 24px 0 0 0;
+  padding: 0;
+}
+
+.popup__button_cancel:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

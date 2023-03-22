@@ -1,13 +1,9 @@
 import React from "react";
 import closeIcon from "../images/Union.svg";
 
-const PopupWithImage = ({ card, onClose, onOutClick }) => {
+const PopupWithImage = ({ card, onClose, onOutClick, onDeleteClick }) => {
   return (
-    <div
-      className="popup__container popup_opened"
-      id="imagePopup"
-      onClick={onOutClick}
-    >
+    <div className="popup__container" onClick={onOutClick}>
       <div className="popup__photo">
         <img
           src={card.link}
@@ -23,8 +19,21 @@ const PopupWithImage = ({ card, onClose, onOutClick }) => {
             onClick={onClose}
           />
         </button>
-        <h2 className="popup__title">{card.name}</h2>
-        <p className="popup__title popup__weather">Weather: {card.weather}</p>
+        <div className="popup__subcontainer">
+          <div>
+            <h2 className="popup__title">{card.name}</h2>
+            <p className="popup__title popup__weather">
+              Weather: {card.weather}
+            </p>
+          </div>
+          <button
+            className="popup__delete"
+            onClick={onDeleteClick}
+            aria-label="Delete"
+          >
+            Delete Item
+          </button>
+        </div>
       </div>
     </div>
   );

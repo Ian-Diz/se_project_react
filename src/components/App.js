@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
-import PopupWithForm from "./PopupWithForm";
 import PopupWithImage from "./PopupWithImage";
 import { getWeather, filterData } from "../utils/weatherApi";
 import {
@@ -11,12 +10,19 @@ import {
   longitude,
   defaultClothing,
 } from "../utils/constants";
+import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
+import { Route } from "react-router-dom";
+import Profile from "./Profile";
+import AddItemPopup from "./AddItemPopup";
+import PopupWithConfirmation from "./PopupWithConfirmation";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
   const [clothingCards, setClothingCards] = React.useState([]);
   const [activePopup, setActivePopup] = React.useState();
   const [selectedCard, setSelectedCard] = React.useState(null);
+  const [value, setValue] = React.useState(false);
+  const [currentTempUnit, setCurrentTempUnit] = React.useState("F");
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -25,6 +31,16 @@ const App = () => {
 
   const handleAddClick = () => {
     setActivePopup("add");
+  };
+
+  const handleDeleteClick = () => {
+    setActivePopup("confirm");
+  };
+
+  const handleOutClick = (evt) => {
+    if (evt.target === evt.currentTarget) {
+      setActivePopup();
+    }
   };
 
   const closePopups = () => {
@@ -37,11 +53,21 @@ const App = () => {
     }
   };
 
-  const handleOutClick = (evt) => {
-    if (evt.target === evt.currentTarget) {
-      setActivePopup();
-    }
+  const handleSwitchToggle = () => {
+    setValue(!value);
+    currentTempUnit === "F" ? setCurrentTempUnit("C") : setCurrentTempUnit("F");
   };
+
+  const handleAddSubmit = (card) => {
+    card._id = clothingCards.length + 1;
+    setClothingCards([card, ...clothingCards]);
+  };
+
+  const handleCancel = () => {
+    setActivePopup("image");
+  };
+
+  const handleDelete = () => {};
 
   React.useEffect(() => {
     if (lagitude && longitude) {
@@ -69,77 +95,50 @@ const App = () => {
 
   return (
     <>
-      <Header weatherData={weatherData} handleClick={handleAddClick} />
-      <Main
-        weatherData={weatherData}
-        cards={clothingCards}
-        onCardClick={handleCardClick}
-      />
-      <Footer />
-      {activePopup === "add" && (
-        <PopupWithForm
-          title="New garment"
-          name="add"
-          onClose={closePopups}
-          buttonText="Add garment"
-          onOutClick={handleOutClick}
-        >
-          <label className="popup__label">
-            Name
-            <input
-              className="popup__input"
-              type="text"
-              placeholder="Name"
-              required
-              name="name"
-              id="inputName"
-              minLength="1"
-              maxLength="30"
-            />
-            <span className="popup__input-error inputName-error"></span>
-          </label>
-          <label className="popup__label">
-            Image
-            <input
-              className="popup__input"
-              placeholder="Image URL"
-              required
-              name="imageURL"
-              id="inputURL"
-              type="url"
-            />
-            <span className="popup__input-error inputLink-error"></span>
-          </label>
-          <p className="popup__text">Select the weather type:</p>
-          <div className="popup__input_container">
-            <div>
-              <input type="radio" id="hot" name="tempRange" value="hot" />
-              <label className="popup__label_multiple" htmlFor="hot">
-                Hot
-              </label>
-            </div>
-            <div>
-              <input type="radio" id="warm" name="tempRange" value="hot" />
-              <label className="popup__label_multiple" htmlFor="warm">
-                Warm
-              </label>
-            </div>
-            <div>
-              <input type="radio" id="cold" name="tempRange" value="hot" />
-              <label className="popup__label_multiple" htmlFor="cold">
-                Cold
-              </label>
-            </div>
-          </div>
-        </PopupWithForm>
-      )}
-      {activePopup === "image" && (
-        <PopupWithImage
-          card={selectedCard}
-          onClose={closePopups}
-          onOutClick={handleOutClick}
+      <CurrentTempUnitContext.Provider
+        value={{ currentTempUnit, handleSwitchToggle }}
+      >
+        <Header
+          weatherData={weatherData}
+          handleClick={handleAddClick}
+          switchIsOn={value}
+          switchHandleToggle={handleSwitchToggle}
         />
-      )}
+        <Route exact path="/">
+          <Main
+            weatherData={weatherData}
+            cards={clothingCards}
+            onCardClick={handleCardClick}
+          />
+        </Route>
+        <Route path="/profile">
+          <Profile cards={clothingCards} onCardClick={handleCardClick} />
+        </Route>
+        <Footer />
+        {activePopup === "add" && (
+          <AddItemPopup
+            onAddItem={handleAddSubmit}
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+          />
+        )}
+        {activePopup === "image" && (
+          <PopupWithImage
+            card={selectedCard}
+            onClose={closePopups}
+            onOutClick={handleOutClick}
+            onDeleteClick={handleDeleteClick}
+          />
+        )}
+        {activePopup === "confirm" && (
+          <PopupWithConfirmation
+            onClose={closePopups}
+            onOutClick={handleOutClick}
+            onCancel={handleCancel}
+            onDelete={handleDelete}
+          />
+        )}
+      </CurrentTempUnitContext.Provider>
     </>
   );
 };
