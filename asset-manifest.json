@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/se_project_react/static/css/main.046153ea.css",
-    "main.js": "/se_project_react/static/js/main.bf57c1fe.js",
+    "main.css": "/se_project_react/static/css/main.67c4e2ac.css",
+    "main.js": "/se_project_react/static/js/main.ba80318a.js",
     "static/js/787.79f92504.chunk.js": "/se_project_react/static/js/787.79f92504.chunk.js",
     "static/media/wtwrlogo.svg": "/se_project_react/static/media/wtwrlogo.e6922bf0cc65fda664069a7fb7bb200c.svg",
     "index.html": "/se_project_react/index.html",
     "static/media/Union.svg": "/se_project_react/static/media/Union.5041c8cbf1275be14ac1bba3122b34f5.svg",
-    "main.046153ea.css.map": "/se_project_react/static/css/main.046153ea.css.map",
-    "main.bf57c1fe.js.map": "/se_project_react/static/js/main.bf57c1fe.js.map",
+    "main.67c4e2ac.css.map": "/se_project_react/static/css/main.67c4e2ac.css.map",
+    "main.ba80318a.js.map": "/se_project_react/static/js/main.ba80318a.js.map",
     "787.79f92504.chunk.js.map": "/se_project_react/static/js/787.79f92504.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.046153ea.css",
-    "static/js/main.bf57c1fe.js"
+    "static/css/main.67c4e2ac.css",
+    "static/js/main.ba80318a.js"
   ]
 }
