@@ -1,8 +1,8 @@
 import React from "react";
 import { useContext } from "react";
-import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
+import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 
-const Weather = ({ weatherData, banner }) => {
+const WeatherCard = ({ weatherData, banner }) => {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
 
   if (!weatherData.temp) return null;
@@ -17,4 +17,4 @@ const Weather = ({ weatherData, banner }) => {
   );
 };
 
-export default Weather;
+export default WeatherCard;

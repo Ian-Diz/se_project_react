@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
+const AddItemPopup = ({ isOpen, onAddItem, closePopups, handleOutClick }) => {
   const [nameVal, setNameVal] = React.useState("");
   const [imageVal, setImageVal] = React.useState("");
   const [radioVal, setRadioVal] = React.useState("");
@@ -27,6 +27,14 @@ const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
   const onRadioChange = (evt) => {
     setRadioVal(evt.target.value);
   };
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setNameVal("");
+      setImageVal("");
+      setRadioVal("");
+    }
+  }, [isOpen]);
 
   return (
     <PopupWithForm

@@ -1,8 +1,8 @@
 import React from "react";
 import { useContext } from "react";
-import Weather from "./Weather";
+import WeatherCard from "./Weather";
 import ClothingCard from "./ClothingCard";
-import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
+import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 
 const Main = ({ weatherData, cards, onCardClick, banner }) => {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
@@ -25,7 +25,7 @@ const Main = ({ weatherData, cards, onCardClick, banner }) => {
 
   return (
     <main className="main">
-      <Weather weatherData={weatherData} banner={banner} />
+      <WeatherCard weatherData={weatherData} banner={banner} />
       <section className="main__clothing">
         <p className="main__text">
           Today is {weatherData.temp[currentTempUnit]} / You may want to wear:

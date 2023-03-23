@@ -1,19 +1,24 @@
 import React from "react";
 import { useContext } from "react";
-import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
+import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 
 const Switch = ({ isOn, handleToggle }) => {
-  const { CurrentTempUnit } = useContext(CurrentTempUnitContext);
+  const { currentTempUnit, handleSwitchToggle, value } = useContext(
+    CurrentTempUnitContext
+  );
+
+  const white = "#FFF";
+  const gray = "rgba(0, 0, 0, 0.5)";
 
   return (
     <div className="switch">
       <input
         className="switch__input"
-        id={`switch`}
+        id={"switch"}
         type="checkbox"
-        checked={isOn}
-        onChange={handleToggle}
-        value={CurrentTempUnit}
+        checked={value}
+        onChange={handleSwitchToggle}
+        value={currentTempUnit}
       />
       <label className="switch__label" htmlFor={`switch`}>
         <span className="switch__button" />
@@ -21,7 +26,7 @@ const Switch = ({ isOn, handleToggle }) => {
           <span
             className="switch__f"
             style={{
-              color: (!isOn && "#FFF") || (isOn && "rgba(0, 0, 0, 0.5)"),
+              color: (!value && white) || (value && gray),
             }}
           >
             F
@@ -29,7 +34,7 @@ const Switch = ({ isOn, handleToggle }) => {
           <span
             className="switch__c"
             style={{
-              color: (!isOn && "rgba(0, 0, 0, 0.5)") || (isOn && "#FFF"),
+              color: (!value && gray) || (value && white),
             }}
           >
             C

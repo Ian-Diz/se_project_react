@@ -74,3 +74,12 @@
   width: 50%;
   height: 100%;
 }
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+  .switch__label {
+    margin: 0 35px 0 0;
+  }
+}

@@ -4,12 +4,7 @@ import avatar from "../images/avatar.jpeg";
 import Switch from "./TempSwitch";
 import { Link } from "react-router-dom";
 
-const Header = ({
-  weatherData,
-  handleClick,
-  switchIsOn,
-  switchHandleToggle,
-}) => {
+const Header = ({ weatherData, handleClick }) => {
   if (!weatherData) return null;
 
   const currentDate = new Date().toLocaleString("default", {
@@ -28,7 +23,7 @@ const Header = ({
         </p>
       </div>
       <div className="header__right">
-        <Switch isOn={switchIsOn} handleToggle={switchHandleToggle} />
+        <Switch />
         <button type="button" className="header__add" onClick={handleClick}>
           + Add clothes
         </button>

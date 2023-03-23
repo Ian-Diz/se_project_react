@@ -1,5 +1,9 @@
 .main {
   margin: 33px 40px 0 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .main__clothing {
@@ -17,4 +21,21 @@
   gap: 20px;
   padding: 0;
   grid-template-columns: repeat(4, 328px);
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+}
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+  .main {
+    margin: 33px 20px 0 20px;
+  }
+
+  .main__clothing {
+    margin: 20px 0 0 0;
+  }
+
+  .main__cards {
+    grid-template-columns: repeat(4, 164px);
+  }
 }

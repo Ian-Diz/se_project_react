@@ -4,8 +4,8 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithImage from "./PopupWithImage";
 import { getWeather, filterData, getWeatherBanner } from "../utils/weatherApi";
-import { apiKey, lagitude, longitude } from "../utils/constants";
-import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
+import { apiKey, latitude, longitude } from "../utils/constants";
+import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 import { Route } from "react-router-dom";
 import Profile from "./Profile";
 import AddItemPopup from "./AddItemPopup";
@@ -20,6 +20,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [value, setValue] = React.useState(false);
   const [currentTempUnit, setCurrentTempUnit] = React.useState("F");
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -27,6 +28,7 @@ const App = () => {
   };
 
   const handleAddClick = () => {
+    setIsOpen(true);
     setActivePopup("add");
   };
 
@@ -44,22 +46,18 @@ const App = () => {
     setActivePopup();
   };
 
-  const closeWithEsc = (evt) => {
-    if (evt.key === "Escape") {
-      setActivePopup();
-    }
-  };
-
   const handleSwitchToggle = () => {
     setValue(!value);
-    currentTempUnit === "F" ? setCurrentTempUnit("C") : setCurrentTempUnit("F");
+    setCurrentTempUnit(currentTempUnit === "F" ? "C" : "F");
   };
 
-  const handleAddSubmit = (card) => {
-    addClothing(card)
+  const handleAddSubmit = (rawCard) => {
+    addClothing(rawCard)
       .then((data) => {
+        const card = rawCard;
         card.id = data.id;
         setClothingCards([card, ...clothingCards]);
+        setIsOpen("false");
       })
       .catch((err) => {
         console.log(err);
@@ -71,12 +69,9 @@ const App = () => {
   };
 
   const handleDelete = (id) => {
-    deleteCard(id).catch((err) => {
-      console.log(err);
-    });
-    getClothing()
-      .then((data) => {
-        setClothingCards(data);
+    deleteCard(id)
+      .then(() => {
+        closePopups();
       })
       .catch((err) => {
         console.log(err);
@@ -84,8 +79,8 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    if (lagitude && longitude) {
-      getWeather({ longitude, lagitude }, apiKey)
+    if (latitude && longitude) {
+      getWeather({ longitude, latitude }, apiKey)
         .then((data) => {
           setWeatherData(filterData(data));
           setWeatherBanner(getWeatherBanner(data));
@@ -107,6 +102,12 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
+    const closeWithEsc = (evt) => {
+      if (evt.key === "Escape") {
+        setActivePopup();
+      }
+    };
+
     window.addEventListener("keydown", closeWithEsc);
 
     return () => {
@@ -117,12 +118,11 @@ const App = () => {
   return (
     <>
       <CurrentTempUnitContext.Provider
-        value={{ currentTempUnit, handleSwitchToggle }}
+        value={{ currentTempUnit, handleSwitchToggle, value }}
       >
         <Header
           weatherData={weatherData}
           handleClick={handleAddClick}
-          switchIsOn={value}
           switchHandleToggle={handleSwitchToggle}
         />
         <Route exact path="/">
@@ -134,7 +134,11 @@ const App = () => {
           />
         </Route>
         <Route path="/profile">
-          <Profile cards={clothingCards} onCardClick={handleCardClick} />
+          <Profile
+            cards={clothingCards}
+            onCardClick={handleCardClick}
+            onAddClick={handleAddClick}
+          />
         </Route>
         <Footer />
         {activePopup === "add" && (
@@ -142,6 +146,7 @@ const App = () => {
             onAddItem={handleAddSubmit}
             closePopups={closePopups}
             handleOutClick={handleOutClick}
+            isOpen={isOpen}
           />
         )}
         {activePopup === "image" && (
