@@ -1,7 +1,17 @@
 import React from "react";
 import closeIcon from "../images/Union.svg";
 
-const PopupWithConfirmation = ({ onClose, onOutClick, onDelete, onCancel }) => {
+const PopupWithConfirmation = ({
+  onClose,
+  onOutClick,
+  onDelete,
+  onCancel,
+  card,
+}) => {
+  const handleDelete = () => {
+    onDelete(card.id);
+  };
+
   return (
     <>
       <div className="popup__container" onClick={onOutClick}>
@@ -24,7 +34,7 @@ const PopupWithConfirmation = ({ onClose, onOutClick, onDelete, onCancel }) => {
             className="popup__button_confirm"
             type="button"
             aria-label="Confirm"
-            onClick={onDelete}
+            onClick={handleDelete}
           >
             Yes, delete item
           </button>

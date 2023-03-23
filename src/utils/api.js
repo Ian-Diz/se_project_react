@@ -24,3 +24,14 @@ export const addClothing = (card) => {
     return Promise.reject(`Error: ${res.status}`);
   });
 };
+
+export const deleteCard = (id) => {
+  return fetch(`${baseUrl}/items/${id}`, {
+    method: "DELETE",
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  });
+};

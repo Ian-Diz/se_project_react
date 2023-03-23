@@ -2,8 +2,11 @@
   margin: 0;
 }
 
+.weather__container {
+  position: relative;
+}
+
 .weather__banner {
-  background-image: url(../images/DSunny.png);
   width: 1360px;
   height: 80px;
 }
@@ -14,4 +17,7 @@
   margin: 0 0 0 20px;
   padding: 20px 0 0 0;
   color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

@@ -4,7 +4,7 @@ import Weather from "./Weather";
 import ClothingCard from "./ClothingCard";
 import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
 
-const Main = ({ weatherData, cards, onCardClick }) => {
+const Main = ({ weatherData, cards, onCardClick, banner }) => {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
 
   if (!weatherData.temp) return null;
@@ -25,7 +25,7 @@ const Main = ({ weatherData, cards, onCardClick }) => {
 
   return (
     <main className="main">
-      <Weather weatherData={weatherData} />
+      <Weather weatherData={weatherData} banner={banner} />
       <section className="main__clothing">
         <p className="main__text">
           Today is {weatherData.temp[currentTempUnit]} / You may want to wear:

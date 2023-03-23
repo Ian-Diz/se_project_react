@@ -1,3 +1,5 @@
+import { dayBanners, nightBanners } from "./constants";
+
 const getWeather = (config, apiKey) => {
   const longitude = config.longitude;
   const lagitude = config.lagitude;
@@ -26,4 +28,42 @@ const filterData = (data) => {
   return weather;
 };
 
-export { getWeather, filterData };
+const getWeatherBanner = (data) => {
+  if (Date.now() / 1000 + data.timezone > data.sys.sunrise) {
+    if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
+      return dayBanners.sunny;
+    } else if (data.weather[0].id >= 802 && data.weather[0].id <= 804) {
+      return dayBanners.cloudy;
+    } else if (data.weather[0].id >= 701 && data.weather[0].id <= 781) {
+      return dayBanners.fog;
+    } else if (data.weather[0].id >= 600 && data.weather[0].id <= 622) {
+      return dayBanners.snow;
+    } else if (
+      (data.weather[0].id >= 500 && data.weather[0].id <= 531) ||
+      (data.weather[0].id >= 300 && data.weather[0].id <= 321)
+    ) {
+      return dayBanners.rain;
+    } else if (data.weather[0].id >= 200 && data.weather[0].id <= 232) {
+      return dayBanners.storm;
+    }
+  } else if (Date.now() / 1000 + data.timezone < data.sys.sunset) {
+    if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
+      return nightBanners.sunny;
+    } else if (data.weather[0].id >= 802 && data.weather[0].id <= 804) {
+      return nightBanners.cloudy;
+    } else if (data.weather[0].id >= 701 && data.weather[0].id <= 781) {
+      return nightBanners.fog;
+    } else if (data.weather[0].id >= 600 && data.weather[0].id <= 622) {
+      return nightBanners.snow;
+    } else if (
+      (data.weather[0].id >= 500 && data.weather[0].id <= 531) ||
+      (data.weather[0].id >= 300 && data.weather[0].id <= 321)
+    ) {
+      return nightBanners.rain;
+    } else if (data.weather[0].id >= 200 && data.weather[0].id <= 232) {
+      return nightBanners.storm;
+    }
+  }
+};
+
+export { getWeather, filterData, getWeatherBanner };
