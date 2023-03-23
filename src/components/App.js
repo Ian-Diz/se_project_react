@@ -4,17 +4,13 @@ import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithImage from "./PopupWithImage";
 import { getWeather, filterData } from "../utils/weatherApi";
-import {
-  apiKey,
-  lagitude,
-  longitude,
-  defaultClothing,
-} from "../utils/constants";
+import { apiKey, lagitude, longitude } from "../utils/constants";
 import CurrentTempUnitContext from "./contexts/CurrentTempUnitContext";
 import { Route } from "react-router-dom";
 import Profile from "./Profile";
 import AddItemPopup from "./AddItemPopup";
 import PopupWithConfirmation from "./PopupWithConfirmation";
+import { addClothing, getClothing } from "../utils/api";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
@@ -59,8 +55,15 @@ const App = () => {
   };
 
   const handleAddSubmit = (card) => {
-    card._id = clothingCards.length + 1;
-    setClothingCards([card, ...clothingCards]);
+    addClothing(card)
+      .then((data) => {
+        card.id = data;
+        console.log(data);
+        setClothingCards([card, ...clothingCards]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCancel = () => {
@@ -82,7 +85,13 @@ const App = () => {
   }, []);
 
   React.useEffect(() => {
-    setClothingCards(defaultClothing);
+    getClothing()
+      .then((data) => {
+        setClothingCards(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   React.useEffect(() => {

@@ -10,7 +10,7 @@ const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
     evt.preventDefault();
     const card = {};
     card.name = nameVal;
-    card.link = imageVal;
+    card.imageUrl = imageVal;
     card.weather = radioVal;
     onAddItem(card);
     closePopups();

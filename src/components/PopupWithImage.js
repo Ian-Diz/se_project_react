@@ -6,7 +6,7 @@ const PopupWithImage = ({ card, onClose, onOutClick, onDeleteClick }) => {
     <div className="popup__container" onClick={onOutClick}>
       <div className="popup__photo">
         <img
-          src={card.link}
+          src={card.imageUrl}
           alt={`An image of ${card.name}`}
           className="popup__image"
         />

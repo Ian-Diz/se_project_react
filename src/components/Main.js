@@ -35,7 +35,7 @@ const Main = ({ weatherData, cards, onCardClick }) => {
             .filter((card) => card.weather === tempRange)
             .map((filteredCard) => (
               <ClothingCard
-                key={filteredCard._id}
+                key={filteredCard.id}
                 card={filteredCard}
                 onCardClick={onCardClick}
               />

@@ -15,11 +15,7 @@ const Profile = ({ cards, onCardClick }) => {
         </div>
         <ul className="profile__cards">
           {cards.map((card) => (
-            <ClothingCard
-              key={card._id}
-              card={card}
-              onCardClick={onCardClick}
-            />
+            <ClothingCard key={card.id} card={card} onCardClick={onCardClick} />
           ))}
         </ul>
       </div>
