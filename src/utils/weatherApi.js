@@ -28,8 +28,10 @@ const filterData = (data) => {
   return weather;
 };
 
+console.log(Date.now() / 1000);
+
 const getWeatherBanner = (data) => {
-  if (Date.now() / 1000 + data.timezone > data.sys.sunrise) {
+  if (Date.now() / 1000 > data.sys.sunrise) {
     if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
       return dayBanners.sunny;
     } else if (data.weather[0].id >= 802 && data.weather[0].id <= 804) {
@@ -46,7 +48,7 @@ const getWeatherBanner = (data) => {
     } else if (data.weather[0].id >= 200 && data.weather[0].id <= 232) {
       return dayBanners.storm;
     }
-  } else if (Date.now() / 1000 + data.timezone > data.sys.sunset) {
+  } else if (Date.now() / 1000 > data.sys.sunset) {
     if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
       return nightBanners.sunny;
     } else if (data.weather[0].id >= 802 && data.weather[0].id <= 804) {
