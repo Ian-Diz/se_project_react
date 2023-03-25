@@ -46,3 +46,23 @@
   font-weight: 700;
   margin-left: 8px;
 }
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .popup__label {
+    width: 343px;
+    margin: 24px 0 0 16px;
+  }
+
+  .popup__input {
+    width: 343px;
+    margin: 8px 16px 0 0;
+  }
+
+  .popup__text {
+    margin: 24px 0 0 16px;
+  }
+
+  .popup__inputs_container {
+    margin: 14px 0 0 16px;
+  }
+}

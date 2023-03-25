@@ -2,22 +2,5 @@
   font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   position: relative;
   margin: 0 auto 0 auto;
-}
-
-@media screen and (min-width: 320px) and (max-width: 767px) {
-  .page {
-    max-width: 7320px;
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 1439px) {
-  .page {
-    max-width: 768px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .page {
-    max-width: 1440px;
-  }
+  background-color: #f3f3f3;
 }

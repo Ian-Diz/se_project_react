@@ -12,14 +12,9 @@
 @import url(./blocks/popupImage.css);
 @import url(./blocks/popupForm.css);
 @import url(./blocks/popupAddItem.css);
+@import url(./blocks/menu.css);
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-@media screen and (min-width: 375px) and (max-width: 767px) {
-}
-
-@media screen and (min-width: 768px) and (max-width: 1439px) {
+  font-family: "Cabinet Grotesk", source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
 }

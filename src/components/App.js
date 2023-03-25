@@ -11,6 +11,7 @@ import Profile from "./Profile";
 import AddItemPopup from "./AddItemPopup";
 import PopupWithConfirmation from "./PopupWithConfirmation";
 import { addClothing, deleteCard, getClothing } from "../utils/api";
+import MobileMenu from "./MobileMenu";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
@@ -20,7 +21,6 @@ const App = () => {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [value, setValue] = React.useState(false);
   const [currentTempUnit, setCurrentTempUnit] = React.useState("F");
-  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -28,8 +28,11 @@ const App = () => {
   };
 
   const handleAddClick = () => {
-    setIsOpen(true);
     setActivePopup("add");
+  };
+
+  const handleMobileClick = () => {
+    setActivePopup("mobile");
   };
 
   const handleDeleteClick = () => {
@@ -57,7 +60,6 @@ const App = () => {
         const card = rawCard;
         card.id = data.id;
         setClothingCards([card, ...clothingCards]);
-        setIsOpen("false");
       })
       .catch((err) => {
         console.log(err);
@@ -71,6 +73,16 @@ const App = () => {
   const handleDelete = (id) => {
     deleteCard(id)
       .then(() => {
+        console.log(id);
+        setClothingCards(
+          clothingCards.filter((card) => {
+            if (card.id === id) {
+              console.log(card.id);
+              return false;
+            }
+            return true;
+          })
+        );
         closePopups();
       })
       .catch((err) => {
@@ -123,7 +135,7 @@ const App = () => {
         <Header
           weatherData={weatherData}
           handleClick={handleAddClick}
-          switchHandleToggle={handleSwitchToggle}
+          handleMobile={handleMobileClick}
         />
         <Route exact path="/">
           <Main
@@ -146,7 +158,6 @@ const App = () => {
             onAddItem={handleAddSubmit}
             closePopups={closePopups}
             handleOutClick={handleOutClick}
-            isOpen={isOpen}
           />
         )}
         {activePopup === "image" && (
@@ -164,6 +175,13 @@ const App = () => {
             onCancel={handleCancel}
             onDelete={handleDelete}
             card={selectedCard}
+          />
+        )}
+        {activePopup === "mobile" && (
+          <MobileMenu
+            onClose={closePopups}
+            onOutClick={handleOutClick}
+            handleClick={handleAddClick}
           />
         )}
       </CurrentTempUnitContext.Provider>

@@ -1,21 +1,52 @@
 .footer {
   display: flex;
   justify-content: space-between;
-  margin: 65px 40px 24px 40px;
+  margin: 65px auto 0 auto;
   align-items: flex-end;
   font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 20px;
+  max-width: 1440px;
+  padding-bottom: 24px;
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px) {
+.footer__author {
+  margin: 0 0 0 40px;
+}
+
+.footer__year {
+  margin: 0 40px 0 0;
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .footer {
+    margin: 83px auto 0 auto;
+    max-width: 375px;
+  }
+
+  .footer__author {
+    margin: 0 0 0 16px;
+  }
+
+  .footer__year {
+    margin: 0 16px 0 0;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1439px) {
   .footer {
     max-width: 768px;
-    margin: 65px 20px 24px 20px;
+    margin: 65px auto 0 auto;
+    max-width: 768px;
+  }
+
+  .footer__author {
+    margin: 0 0 0 20px;
+  }
+
+  .footer__year {
+    margin: 0 20px 0 0;
   }
 }

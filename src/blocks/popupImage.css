@@ -1,4 +1,4 @@
-.popup__container {
+.popup__container-image {
   z-index: 1;
   position: fixed;
   bottom: 0;
@@ -87,4 +87,29 @@
 .popup__delete:hover {
   opacity: 0.6;
   cursor: pointer;
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .popup__photo {
+    position: relative;
+    height: 463px;
+    width: 343px;
+    background-color: #fff;
+    border-radius: 16px;
+  }
+
+  .popup__image {
+    width: 343px;
+    height: 343px;
+    max-height: 100%;
+    max-width: 100%;
+  }
+
+  .popup__title {
+    margin: 20px 0 0 20px;
+  }
+
+  .popup__delete {
+    margin: 20px 20px 0 0;
+  }
 }

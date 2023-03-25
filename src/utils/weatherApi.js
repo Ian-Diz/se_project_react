@@ -46,7 +46,7 @@ const getWeatherBanner = (data) => {
     } else if (data.weather[0].id >= 200 && data.weather[0].id <= 232) {
       return dayBanners.storm;
     }
-  } else if (Date.now() / 1000 + data.timezone < data.sys.sunset) {
+  } else if (Date.now() / 1000 + data.timezone > data.sys.sunset) {
     if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
       return nightBanners.sunny;
     } else if (data.weather[0].id >= 802 && data.weather[0].id <= 804) {

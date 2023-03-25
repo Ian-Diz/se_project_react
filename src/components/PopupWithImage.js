@@ -3,7 +3,7 @@ import closeIcon from "../images/Union.svg";
 
 const PopupWithImage = ({ card, onClose, onOutClick, onDeleteClick }) => {
   return (
-    <div className="popup__container" onClick={onOutClick}>
+    <div className="popup__container-image" onClick={onOutClick}>
       <div className="popup__photo">
         <img
           src={card.imageUrl}

@@ -23,6 +23,20 @@
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
+  .weather {
+    max-width: 768px;
+  }
+
+  .weather__banner {
+    width: 343px;
+    object-fit: none;
+    object-position: 100% 0;
+    border-radius: 20px;
+  }
+
+  .weather__temp {
+    font-size: 36px;
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1439px) {
@@ -32,11 +46,8 @@
 
   .weather__banner {
     width: 728px;
-    height: 50px;
-  }
-
-  .weather__temp {
-    top: -10px;
-    font-size: 25px;
+    object-fit: none;
+    object-position: 100% 0;
+    border-radius: 20px;
   }
 }
