@@ -1,19 +1,22 @@
 {
   "files": {
-    "main.css": "/se_project_react/static/css/main.edd9ce07.css",
-    "main.js": "/se_project_react/static/js/main.86c70ed6.js",
+    "main.css": "/se_project_react/static/css/main.0d403951.css",
+    "main.js": "/se_project_react/static/js/main.c05db244.js",
     "static/js/787.79f92504.chunk.js": "/se_project_react/static/js/787.79f92504.chunk.js",
     "static/media/NFog.png": "/se_project_react/static/media/NFog.1abb94995fa162296f6a.png",
     "static/media/DFog.png": "/se_project_react/static/media/DFog.b08112b74bc884082ef6.png",
     "static/media/wtwrlogo.svg": "/se_project_react/static/media/wtwrlogo.e6922bf0cc65fda664069a7fb7bb200c.svg",
+    "static/media/random.svg": "/se_project_react/static/media/random.185bde8dc3c044bb0a1603a31c164afa.svg",
+    "static/media/hamburgor.svg": "/se_project_react/static/media/hamburgor.eed2d23e16998cfd50aa1153ba59eb63.svg",
     "static/media/Union.svg": "/se_project_react/static/media/Union.5041c8cbf1275be14ac1bba3122b34f5.svg",
     "index.html": "/se_project_react/index.html",
-    "main.edd9ce07.css.map": "/se_project_react/static/css/main.edd9ce07.css.map",
-    "main.86c70ed6.js.map": "/se_project_react/static/js/main.86c70ed6.js.map",
+    "static/media/mobileClose.svg": "/se_project_react/static/media/mobileClose.ba40c427ccf8bf1c3a666246e1adea36.svg",
+    "main.0d403951.css.map": "/se_project_react/static/css/main.0d403951.css.map",
+    "main.c05db244.js.map": "/se_project_react/static/js/main.c05db244.js.map",
     "787.79f92504.chunk.js.map": "/se_project_react/static/js/787.79f92504.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.edd9ce07.css",
-    "static/js/main.86c70ed6.js"
+    "static/css/main.0d403951.css",
+    "static/js/main.c05db244.js"
   ]
 }
