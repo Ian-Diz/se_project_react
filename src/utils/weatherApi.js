@@ -28,8 +28,6 @@ const filterData = (data) => {
   return weather;
 };
 
-console.log(Date.now() / 1000);
-
 const getWeatherBanner = (data) => {
   if (Date.now() / 1000 > data.sys.sunrise) {
     if (data.weather[0].id >= 800 && data.weather[0].id <= 801) {
