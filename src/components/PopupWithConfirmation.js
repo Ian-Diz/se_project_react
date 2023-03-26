@@ -13,7 +13,7 @@ const PopupWithConfirmation = ({
   };
 
   return (
-    <div className="popup__container" onClick={onOutClick}>
+    <div className="popup__container-confirm" onClick={onOutClick}>
       <div className="popup__confirm">
         <button type="button" className="popup__button" aria-label="Close">
           <img
