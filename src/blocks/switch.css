@@ -2,7 +2,6 @@
   display: flex;
   grid-column: 1/1;
   grid-row: 1/1;
-  align-items: center;
 }
 
 .switch__input {
@@ -24,6 +23,7 @@
   position: relative;
   transition: background-color 0.2s;
   border: 2px solid #7e7e7e;
+  margin: 5px 0 0 0;
 }
 
 .switch__label .switch__button {
@@ -73,13 +73,4 @@
   align-items: center;
   width: 50%;
   height: 100%;
-}
-
-@media screen and (min-width: 320px) and (max-width: 767px) {
-}
-
-@media screen and (min-width: 768px) and (max-width: 1439px) {
-  .switch__label {
-    margin: 0 35px 0 0;
-  }
 }

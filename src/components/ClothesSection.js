@@ -1,6 +1,16 @@
+import React, { useContext } from "react";
 import ClothingCard from "./ClothingCard";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
-const ClothesSection = ({ cards, onCardClick, onAddClick }) => {
+const ClothesSection = ({
+  cards,
+  onCardClick,
+  onAddClick,
+  isLoggedIn,
+  onLike,
+}) => {
+  const currentUser = useContext(CurrentUserContext);
+
   return (
     <div className="profile__container">
       <div className="profile__subcontainer">
@@ -15,9 +25,21 @@ const ClothesSection = ({ cards, onCardClick, onAddClick }) => {
         </button>
       </div>
       <ul className="profile__cards">
-        {cards.map((card) => (
-          <ClothingCard key={card.id} card={card} onCardClick={onCardClick} />
-        ))}
+        {cards
+          .filter(
+            (card) =>
+              card.owner ===
+              (currentUser.data === undefined ? "" : currentUser.data._id)
+          )
+          .map((card) => (
+            <ClothingCard
+              key={card._id}
+              card={card}
+              onCardClick={onCardClick}
+              onLike={onLike}
+              isLoggedIn={isLoggedIn}
+            />
+          ))}
       </ul>
     </div>
   );

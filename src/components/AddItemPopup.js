@@ -1,10 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
+const AddItemPopup = ({ onAddItem, closePopups, handleOutClick, token }) => {
   const [nameVal, setNameVal] = React.useState("");
   const [imageVal, setImageVal] = React.useState("");
   const [radioVal, setRadioVal] = React.useState("");
+
+  const buttonClasses = {
+    mainButton: "popup__add",
+    otherButton: "popup__leave",
+  };
+
+  const buttonTexts = {
+    button: "Add Garment",
+    other: null,
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -12,7 +22,7 @@ const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
     card.name = nameVal;
     card.imageUrl = imageVal;
     card.weather = radioVal;
-    onAddItem(card);
+    onAddItem(card, token);
     closePopups();
   };
 
@@ -39,9 +49,10 @@ const AddItemPopup = ({ onAddItem, closePopups, handleOutClick }) => {
       title="New garment"
       name="add"
       onClose={closePopups}
-      buttonText="Add garment"
+      buttonText={buttonTexts}
       onOutClick={handleOutClick}
       handleSubmit={handleSubmit}
+      buttonClass={buttonClasses}
     >
       <label className="popup__label">
         Name

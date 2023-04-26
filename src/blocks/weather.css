@@ -22,9 +22,9 @@
   left: 0;
 }
 
-@media screen and (min-width: 320px) and (max-width: 767px) {
+@media screen and (min-width: 375px) and (max-width: 767px) {
   .weather {
-    max-width: 768px;
+    width: 343px;
   }
 
   .weather__banner {

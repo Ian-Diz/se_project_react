@@ -29,6 +29,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  border: 1px solid rgba(0, 0, 0.3);
 }
 
 .popup__button {
@@ -63,21 +64,58 @@
   margin: 28px 0 0 28px;
 }
 
-.popup__save {
+.popup__add {
   width: 124px;
   height: 36px;
   background-color: rgba(0, 0, 0, 0.3);
   margin: 34px 0 36px 28px;
   padding: 0;
   border: none;
-  border-radius: 2px;
+  border-radius: 4px;
   font-family: "Inter", Arial, Helvetica, sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.2;
   text-align: center;
   color: white;
+}
+
+.popup__login {
+  width: 73px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin: 34px 0 36px 28px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2em;
+  text-align: center;
+  color: white;
+}
+
+.popup__other {
+  width: 85px;
+  height: 36px;
+  margin: 34px 0 36px 12px;
+  padding: 0;
+  border: none;
+  background-color: white;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2em;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.popup__leave {
+  display: none;
 }
 
 @media screen and (min-width: 375px) and (max-width: 767px) {

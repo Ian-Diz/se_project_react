@@ -1,47 +1,41 @@
 import React from "react";
 import closeIcon from "../images/Union.svg";
 
-const PopupWithConfirmation = ({
-  onClose,
-  onOutClick,
-  onDelete,
-  onCancel,
-  card,
-}) => {
-  const handleDelete = () => {
-    onDelete(card._id);
+const LogoutPopup = ({ closePopups, handleOutClick, logout }) => {
+  const handleLogout = () => {
+    logout();
+    closePopups();
   };
 
   return (
-    <div className="popup__container-confirm" onClick={onOutClick}>
+    <div className="popup__container-confirm" onClick={handleOutClick}>
       <div className="popup__confirm">
         <button type="button" className="popup__button" aria-label="Close">
           <img
             className="popup__close"
             alt="Close button"
             src={closeIcon}
-            onClick={onClose}
+            onClick={closePopups}
           />
         </button>
         <div className="popup__container_confirm">
           <p className="popup__text_confirm">
-            Are you sure you want to delete this item?
+            Are you sure you want to log out?
           </p>
-          <p className="popup__text_confirm">This action is irreversible</p>
         </div>
         <button
           className="popup__button_confirm"
           type="button"
           aria-label="Confirm"
-          onClick={handleDelete}
+          onClick={handleLogout}
         >
-          Yes, delete item
+          Yes, log out
         </button>
         <button
           className="popup__button_cancel"
           type="button"
           aria-label="Cancel"
-          onClick={onCancel}
+          onClick={closePopups}
         >
           Cancel
         </button>
@@ -50,4 +44,4 @@ const PopupWithConfirmation = ({
   );
 };
 
-export default PopupWithConfirmation;
+export default LogoutPopup;

@@ -11,8 +11,8 @@
 @import url(./blocks/popupConfirm.css);
 @import url(./blocks/popupImage.css);
 @import url(./blocks/popupForm.css);
-@import url(./blocks/popupAddItem.css);
 @import url(./blocks/menu.css);
+@import url(./blocks/popupForms.css);
 
 code {
   font-family: "Cabinet Grotesk", source-code-pro, Menlo, Monaco, Consolas,

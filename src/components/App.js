@@ -6,12 +6,25 @@ import PopupWithImage from "./PopupWithImage";
 import { getWeather, filterData, getWeatherBanner } from "../utils/weatherApi";
 import { apiKey, latitude, longitude } from "../utils/constants";
 import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Profile from "./Profile";
 import AddItemPopup from "./AddItemPopup";
 import PopupWithConfirmation from "./PopupWithConfirmation";
-import { addClothing, deleteCard, getClothing } from "../utils/api";
+import {
+  addClothing,
+  deleteCard,
+  getClothing,
+  addLike,
+  removeLike,
+  editProfile,
+} from "../utils/api";
 import MobileMenu from "./MobileMenu";
+import LoginPopup from "./LoginPopup";
+import RegisterPopup from "./RegisterPopup";
+import * as auth from "./auth";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import EditPopup from "./EditPopup";
+import LogoutPopup from "./LogoutPopup";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
@@ -21,6 +34,19 @@ const App = () => {
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [value, setValue] = React.useState(false);
   const [currentTempUnit, setCurrentTempUnit] = React.useState("F");
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [token, setToken] = React.useState("");
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCurrentUser({});
+    localStorage.removeItem("jwt");
+  };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -31,12 +57,32 @@ const App = () => {
     setActivePopup("add");
   };
 
+  const handleLoginClick = () => {
+    setActivePopup("login");
+  };
+
+  const handleLogoutClick = () => {
+    setActivePopup("logout");
+  };
+
+  const handleEditClick = () => {
+    setActivePopup("edit");
+  };
+
+  const handleRegisterClick = () => {
+    setActivePopup("register");
+  };
+
   const handleMobileClick = () => {
     setActivePopup("mobile");
   };
 
   const handleDeleteClick = () => {
     setActivePopup("confirm");
+  };
+
+  const handleCancel = () => {
+    setActivePopup("image");
   };
 
   const handleOutClick = (evt) => {
@@ -54,30 +100,38 @@ const App = () => {
     setCurrentTempUnit(currentTempUnit === "F" ? "C" : "F");
   };
 
-  const handleAddSubmit = (rawCard) => {
-    addClothing(rawCard)
+  const handleAddSubmit = (rawCard, token) => {
+    addClothing(rawCard, token)
       .then((data) => {
         const card = rawCard;
-        card.id = data.id;
-        setClothingCards([card, ...clothingCards]);
+        card._id = data.data._id;
+        card.owner = currentUser.data._id;
+        card.likes = data.data.likes;
+        setClothingCards([...clothingCards, card]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleCancel = () => {
-    setActivePopup("image");
+  const handleEditSubmit = ({ name, avatarUrl }) => {
+    editProfile({ name, avatarUrl }, token);
+
+    setCurrentUser({
+      data: {
+        ...currentUser.data,
+        name: name,
+        avatar: avatarUrl,
+      },
+    });
   };
 
   const handleDelete = (id) => {
-    deleteCard(id)
+    deleteCard(id, token)
       .then(() => {
-        console.log(id);
         setClothingCards(
           clothingCards.filter((card) => {
-            if (card.id === id) {
-              console.log(card.id);
+            if (card._id === id) {
               return false;
             }
             return true;
@@ -89,6 +143,47 @@ const App = () => {
         console.log(err);
       });
   };
+
+  const handleLike = (id, isLiked, user) => {
+    isLiked
+      ? removeLike(id, user, token)
+          .then((updatedCard) => {
+            setClothingCards((cards) =>
+              cards.map((c) => (c._id === id ? updatedCard.data : c))
+            );
+          })
+          .catch((err) => console.log(err))
+      : addLike(id, user, token)
+          .then((updatedCard) => {
+            setClothingCards((cards) =>
+              cards.map((c) => (c._id === id ? updatedCard.data : c))
+            );
+          })
+          .catch((err) => console.log(err));
+  };
+
+  React.useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+
+      if (jwt) {
+        setToken(localStorage.getItem("jwt"));
+      }
+
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+          }
+          return res;
+        })
+        .then((data) => {
+          setCurrentUser(data);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
 
   React.useEffect(() => {
     if (latitude && longitude) {
@@ -129,62 +224,110 @@ const App = () => {
 
   return (
     <>
-      <CurrentTempUnitContext.Provider
-        value={{ currentTempUnit, handleSwitchToggle, value }}
-      >
-        <Header
-          weatherData={weatherData}
-          handleClick={handleAddClick}
-          handleMobile={handleMobileClick}
-        />
-        <Route exact path="/">
-          <Main
+      <CurrentUserContext.Provider value={currentUser}>
+        <CurrentTempUnitContext.Provider
+          value={{ currentTempUnit, handleSwitchToggle, value }}
+        >
+          <Header
             weatherData={weatherData}
-            cards={clothingCards}
-            onCardClick={handleCardClick}
-            banner={weatherBanner}
-          />
-        </Route>
-        <Route path="/profile">
-          <Profile
-            cards={clothingCards}
-            onCardClick={handleCardClick}
-            onAddClick={handleAddClick}
-          />
-        </Route>
-        <Footer />
-        {activePopup === "add" && (
-          <AddItemPopup
-            onAddItem={handleAddSubmit}
-            closePopups={closePopups}
-            handleOutClick={handleOutClick}
-          />
-        )}
-        {activePopup === "image" && (
-          <PopupWithImage
-            card={selectedCard}
-            onClose={closePopups}
-            onOutClick={handleOutClick}
-            onDeleteClick={handleDeleteClick}
-          />
-        )}
-        {activePopup === "confirm" && (
-          <PopupWithConfirmation
-            onClose={closePopups}
-            onOutClick={handleOutClick}
-            onCancel={handleCancel}
-            onDelete={handleDelete}
-            card={selectedCard}
-          />
-        )}
-        {activePopup === "mobile" && (
-          <MobileMenu
-            onClose={closePopups}
-            onOutClick={handleOutClick}
             handleClick={handleAddClick}
+            handleMobile={handleMobileClick}
+            isLoggedIn={isLoggedIn}
+            handleLogin={handleLoginClick}
+            handleRegister={handleRegisterClick}
           />
-        )}
-      </CurrentTempUnitContext.Provider>
+          <Route exact path="/">
+            <Main
+              weatherData={weatherData}
+              cards={clothingCards}
+              onCardClick={handleCardClick}
+              banner={weatherBanner}
+              onLike={handleLike}
+              isLoggedIn={isLoggedIn}
+            />
+          </Route>
+          <Route path="/profile">
+            {isLoggedIn ? <Redirect to="/profile" /> : <Redirect to="/" />}
+            <Profile
+              cards={clothingCards}
+              onCardClick={handleCardClick}
+              onAddClick={handleAddClick}
+              isLoggedIn={isLoggedIn}
+              editClick={handleEditClick}
+              logoutClick={handleLogoutClick}
+              onLike={handleLike}
+            />
+          </Route>
+          <Footer />
+          {activePopup === "add" && (
+            <AddItemPopup
+              onAddItem={handleAddSubmit}
+              closePopups={closePopups}
+              handleOutClick={handleOutClick}
+              token={token}
+            />
+          )}
+          {activePopup === "image" && (
+            <PopupWithImage
+              card={selectedCard}
+              onClose={closePopups}
+              onOutClick={handleOutClick}
+              onDeleteClick={handleDeleteClick}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
+          {activePopup === "confirm" && (
+            <PopupWithConfirmation
+              onClose={closePopups}
+              onOutClick={handleOutClick}
+              onCancel={handleCancel}
+              onDelete={handleDelete}
+              card={selectedCard}
+            />
+          )}
+          {activePopup === "mobile" && (
+            <MobileMenu
+              onClose={closePopups}
+              onOutClick={handleOutClick}
+              handleClick={handleAddClick}
+              isLoggedIn={isLoggedIn}
+              handleLogin={handleLoginClick}
+              handleRegister={handleRegisterClick}
+            />
+          )}
+          {activePopup === "login" && (
+            <LoginPopup
+              closePopups={closePopups}
+              handleOutClick={handleOutClick}
+              handleLogin={handleLogin}
+              handleRegisterClick={handleRegisterClick}
+            />
+          )}
+          {activePopup === "register" && (
+            <RegisterPopup
+              closePopups={closePopups}
+              handleOutClick={handleOutClick}
+              handleLogin={handleLogin}
+              handleLoginClick={handleLoginClick}
+            />
+          )}
+          {activePopup === "edit" && (
+            <EditPopup
+              closePopups={closePopups}
+              handleOutClick={handleOutClick}
+              token={token}
+              handleEdit={handleEditSubmit}
+            />
+          )}
+          {activePopup === "logout" && (
+            <LogoutPopup
+              closePopups={closePopups}
+              handleOutClick={handleOutClick}
+              logout={handleLogout}
+            />
+          )}
+        </CurrentTempUnitContext.Provider>
+      </CurrentUserContext.Provider>
     </>
   );
 };

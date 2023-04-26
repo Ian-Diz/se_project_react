@@ -1,16 +1,22 @@
-import React from "react";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import WeatherCard from "./Weather";
 import ClothingCard from "./ClothingCard";
 import random from "../images/random.svg";
 import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 
-const Main = ({ weatherData, cards, onCardClick, banner }) => {
+const Main = ({
+  weatherData,
+  cards,
+  onCardClick,
+  banner,
+  onLike,
+  isLoggedIn,
+}) => {
   const { currentTempUnit } = useContext(CurrentTempUnitContext);
 
   if (!weatherData.temp) return null;
 
-  const temp = weatherData.temp.calc;
+  const temp = Math.round(weatherData.temp.calc);
 
   const getTempRange = () => {
     if (temp >= 80) {
@@ -23,6 +29,8 @@ const Main = ({ weatherData, cards, onCardClick, banner }) => {
   };
 
   const tempRange = getTempRange();
+
+  console.log(cards);
 
   return (
     <main className="main">
@@ -37,9 +45,11 @@ const Main = ({ weatherData, cards, onCardClick, banner }) => {
               .filter((card) => card.weather === tempRange)
               .map((filteredCard) => (
                 <ClothingCard
-                  key={filteredCard.id}
+                  key={filteredCard._id}
                   card={filteredCard}
                   onCardClick={onCardClick}
+                  onLike={onLike}
+                  isLoggedIn={isLoggedIn}
                 />
               ))}
           </ul>

@@ -9,7 +9,13 @@ const PopupWithForm = ({
   children,
   onOutClick,
   handleSubmit,
+  buttonClass,
+  otherButtonClick,
 }) => {
+  if (!buttonText.other) {
+    buttonText.other = null;
+  }
+
   return (
     <div className="popup__container-form" onClick={onOutClick}>
       <form className="popup__form" name={name} onSubmit={handleSubmit}>
@@ -17,7 +23,7 @@ const PopupWithForm = ({
           <button type="button" className="popup__button" aria-label="Close">
             <img
               className="popup__close"
-              alt="Close button image"
+              alt="Close button"
               src={closeIcon}
               id="addPopup-close"
               onClick={onClose}
@@ -25,14 +31,23 @@ const PopupWithForm = ({
           </button>
           <h2 className="popup__header">{title}</h2>
           {children}
-          <button
-            className="popup__save"
-            type="submit"
-            aria-label="Save"
-            id="addSave"
-          >
-            {buttonText}
-          </button>
+          <div>
+            <button
+              className={buttonClass.mainButton}
+              type="submit"
+              aria-label="Save"
+              id="addSave"
+            >
+              {buttonText.button}
+            </button>
+            <button
+              className={buttonClass.otherButton}
+              type="button"
+              onClick={otherButtonClick}
+            >
+              {buttonText.other}
+            </button>
+          </div>
         </fieldset>
       </form>
     </div>

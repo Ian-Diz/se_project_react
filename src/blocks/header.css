@@ -85,6 +85,11 @@
   font-size: 20px;
   line-height: 25px;
   margin: 8px 12px 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: fit-content;
+  max-width: 200px;
+  text-align: right;
 }
 
 .header__avatar {
@@ -93,6 +98,62 @@
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 25px;
+}
+
+.header__letter {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.header__outlogged {
+  grid-column: 2/2;
+  grid-row: 1/1;
+  display: flex;
+  color: #000;
+  margin-bottom: 7px;
+}
+
+.header__sign {
+  font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
+  margin: 8px 12px 0 0;
+  border: none;
+  background-color: #f3f3f3;
+  padding: 0;
+}
+
+.header__sign:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.header__log {
+  font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
+  margin: 8px 12px 0 8px;
+  border: none;
+  background-color: #f3f3f3;
+  padding: 0;
+}
+
+.header__log:hover {
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 .header__button {
@@ -118,6 +179,10 @@
 
   .header__right {
     display: none;
+  }
+
+  .header__name {
+    max-width: 100px;
   }
 
   .header__button {
@@ -154,5 +219,9 @@
 
   .header__right {
     margin: 0 20px 0 0;
+  }
+
+  .header__name {
+    max-width: 100px;
   }
 }

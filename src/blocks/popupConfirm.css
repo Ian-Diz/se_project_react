@@ -15,7 +15,7 @@
 
 .popup__confirm {
   background-color: #fff;
-  width: 670px;
+  width: 496px;
   height: 280px;
   border: 1px solid rgba(0, 0, 0.3);
   border-radius: 20px;
@@ -23,6 +23,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 
 .popup__container_confirm {
@@ -44,6 +45,7 @@
   background-color: #fff;
   margin: 40px 0 0 0;
   padding: 0;
+  width: fit-content;
 }
 
 .popup__button_confirm:hover {
@@ -58,6 +60,7 @@
   background-color: #fff;
   margin: 24px 0 0 0;
   padding: 0;
+  width: fit-content;
 }
 
 .popup__button_cancel:hover {
