@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import WeatherCard from "./Weather";
 import ClothingCard from "./ClothingCard";
-import random from "../images/random.svg";
 import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
 
 const Main = ({
@@ -30,8 +29,6 @@ const Main = ({
 
   const tempRange = getTempRange();
 
-  console.log(cards);
-
   return (
     <main className="main">
       <div className="main__container">
@@ -54,10 +51,6 @@ const Main = ({
               ))}
           </ul>
         </section>
-        <button className="main__button">
-          <img src={random} className="main__random" alt="Randomize cards" />
-          <p className="main__label">Randomize</p>
-        </button>
       </div>
     </main>
   );

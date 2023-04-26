@@ -1,7 +1,13 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-const AddItemPopup = ({ onAddItem, closePopups, handleOutClick, token }) => {
+const AddItemPopup = ({
+  onAddItem,
+  closePopups,
+  handleOutClick,
+  token,
+  isLoading,
+}) => {
   const [nameVal, setNameVal] = React.useState("");
   const [imageVal, setImageVal] = React.useState("");
   const [radioVal, setRadioVal] = React.useState("");
@@ -12,7 +18,7 @@ const AddItemPopup = ({ onAddItem, closePopups, handleOutClick, token }) => {
   };
 
   const buttonTexts = {
-    button: "Add Garment",
+    button: isLoading ? "Saving..." : "Add Garment",
     other: null,
   };
 

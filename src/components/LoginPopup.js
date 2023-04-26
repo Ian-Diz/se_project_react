@@ -1,12 +1,12 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
-import * as auth from "./auth";
 
 const LoginPopup = ({
   closePopups,
   handleOutClick,
   handleLogin,
   handleRegisterClick,
+  isLoading,
 }) => {
   const [emailVal, setEmailVal] = React.useState("");
   const [pwVal, setPwVal] = React.useState("");
@@ -16,7 +16,7 @@ const LoginPopup = ({
     otherButton: "popup__other",
   };
   const buttonTexts = {
-    button: "Log in",
+    button: isLoading ? "Saving..." : "Log in",
     other: "or Register",
   };
 
@@ -27,18 +27,7 @@ const LoginPopup = ({
       return;
     }
 
-    auth
-      .signIn(emailVal, pwVal)
-      .then((data) => {
-        if (data.jwt) {
-          handleLogin();
-          setEmailVal("");
-          setPwVal("");
-        }
-      })
-      .catch((err) => console.log(err));
-
-    closePopups();
+    handleLogin(emailVal, pwVal);
   };
 
   const onEmailChange = (evt) => {

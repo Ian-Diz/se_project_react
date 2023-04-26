@@ -1,11 +1,4 @@
-import { baseUrl } from "./constants";
-
-const processRes = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
-};
+import { baseUrl, processRes } from "./constants";
 
 export const getClothing = () => {
   return fetch(`${baseUrl}/items`)
@@ -25,9 +18,7 @@ export const addClothing = (card, token) => {
       weather: card.weather,
       imageUrl: card.imageUrl,
     }),
-  })
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  }).then((res) => processRes(res));
 };
 
 export const deleteCard = (id, token) => {
@@ -37,9 +28,7 @@ export const deleteCard = (id, token) => {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  })
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  }).then((res) => processRes(res));
 };
 
 export const editProfile = (updatedInfo, token) => {
@@ -53,9 +42,7 @@ export const editProfile = (updatedInfo, token) => {
       name: updatedInfo.name,
       avatar: updatedInfo.avatarUrl,
     }),
-  })
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  }).then((res) => processRes(res));
 };
 
 export const addLike = (id, user, token) => {
@@ -65,9 +52,7 @@ export const addLike = (id, user, token) => {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  })
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  }).then((res) => processRes(res));
 };
 
 export const removeLike = (id, user, token) => {
@@ -77,7 +62,5 @@ export const removeLike = (id, user, token) => {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  })
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  }).then((res) => processRes(res));
 };

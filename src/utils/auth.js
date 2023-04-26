@@ -1,4 +1,4 @@
-import { baseUrl } from "../utils/constants";
+import { baseUrl, processRes } from "../utils/constants";
 
 export const signUp = (avatar, email, name, password) => {
   return fetch(`${baseUrl}/signup`, {
@@ -8,12 +8,8 @@ export const signUp = (avatar, email, name, password) => {
     },
     body: JSON.stringify({ avatar, email, name, password }),
   })
-    .then((res) => res.json())
-    .then((res) => res)
-    .then((data) => {
-      signIn(data.email, data.password);
-    })
-    .catch((err) => console.log(err));
+    .then((res) => processRes(res))
+    .then((res) => res);
 };
 
 export const signIn = (email, password) => {
@@ -24,15 +20,13 @@ export const signIn = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => res.json())
+    .then((res) => processRes(res))
     .then((data) => {
       if (data) {
-        console.log(data);
         localStorage.setItem("jwt", data.token);
         return data;
       }
-    })
-    .catch((err) => console.log(err));
+    });
 };
 
 export const checkToken = (token) => {
@@ -43,7 +37,6 @@ export const checkToken = (token) => {
       authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err) => console.log(err));
+    .then((res) => processRes(res))
+    .then((data) => data);
 };

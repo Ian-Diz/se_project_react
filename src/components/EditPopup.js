@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
+  const currentUser = useContext(CurrentUserContext);
+
   const [nameVal, setNameVal] = React.useState("");
   const [avaVal, setAvaVal] = React.useState("");
 
@@ -21,8 +24,6 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
     const updatedInfo = { name: nameVal, avatarUrl: avaVal };
 
     handleEdit(updatedInfo);
-
-    closePopups();
   };
 
   const onNameChange = (evt) => {
@@ -34,8 +35,8 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
   };
 
   React.useEffect(() => {
-    setNameVal("");
-    setAvaVal("");
+    setNameVal(currentUser.data.name);
+    setAvaVal(currentUser.data.avatar);
   }, []);
 
   return (

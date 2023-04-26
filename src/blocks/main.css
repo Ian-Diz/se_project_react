@@ -30,10 +30,6 @@
   grid-template-columns: repeat(4, 328px);
 }
 
-.main__button {
-  display: none;
-}
-
 @media screen and (min-width: 375px) and (max-width: 767px) {
   .main {
     margin: 16px auto 0 auto;
@@ -55,35 +51,6 @@
 
   .main__cards {
     grid-template-columns: repeat(2, 164px);
-  }
-
-  .main__button {
-    display: flex;
-    width: 343px;
-    height: 44px;
-    background-color: #000;
-    color: #fff;
-    justify-content: center;
-    align-items: center;
-    margin: 21px 0 0 0;
-    border: none;
-  }
-
-  .main__button:hover {
-    cursor: pointer;
-  }
-
-  .main__random {
-    width: 12px;
-    height: 12px;
-    margin: 0 8px 0 0;
-  }
-
-  .main__label {
-    margin: 0 12px 0 0;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
   }
 }
 

@@ -6,7 +6,7 @@ import PopupWithImage from "./PopupWithImage";
 import { getWeather, filterData, getWeatherBanner } from "../utils/weatherApi";
 import { apiKey, latitude, longitude } from "../utils/constants";
 import CurrentTempUnitContext from "../contexts/CurrentTempUnitContext";
-import { Route, Redirect } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import Profile from "./Profile";
 import AddItemPopup from "./AddItemPopup";
 import PopupWithConfirmation from "./PopupWithConfirmation";
@@ -21,25 +21,56 @@ import {
 import MobileMenu from "./MobileMenu";
 import LoginPopup from "./LoginPopup";
 import RegisterPopup from "./RegisterPopup";
-import * as auth from "./auth";
+import * as auth from "../utils/auth";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import EditPopup from "./EditPopup";
 import LogoutPopup from "./LogoutPopup";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
-  const [weatherBanner, setWeatherBanner] = React.useState();
+  const [weatherBanner, setWeatherBanner] = React.useState("");
   const [clothingCards, setClothingCards] = React.useState([]);
-  const [activePopup, setActivePopup] = React.useState();
+  const [activePopup, setActivePopup] = React.useState("");
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [value, setValue] = React.useState(false);
   const [currentTempUnit, setCurrentTempUnit] = React.useState("F");
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [token, setToken] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
+  const handleLogin = (email, pw) => {
+    auth
+      .signIn(email, pw)
+      .then((data) => {
+        if (data.jwt) {
+          setIsLoggedIn(true);
+        }
+      })
+      .then(() => {
+        closePopups();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleRegister = (avatar, email, name, pw) => {
+    setIsLoading(true);
+
+    auth
+      .signUp(avatar, email, name, pw)
+      .then((res) => {
+        if (res) {
+          handleLogin(email, pw);
+        } else {
+          console.log("Something went wrong.");
+        }
+      })
+      .then(() => {
+        closePopups();
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleLogout = () => {
@@ -87,12 +118,12 @@ const App = () => {
 
   const handleOutClick = (evt) => {
     if (evt.target === evt.currentTarget) {
-      setActivePopup();
+      closePopups();
     }
   };
 
   const closePopups = () => {
-    setActivePopup();
+    setActivePopup("");
   };
 
   const handleSwitchToggle = () => {
@@ -101,6 +132,8 @@ const App = () => {
   };
 
   const handleAddSubmit = (rawCard, token) => {
+    setIsLoading(true);
+
     addClothing(rawCard, token)
       .then((data) => {
         const card = rawCard;
@@ -109,24 +142,38 @@ const App = () => {
         card.likes = data.data.likes;
         setClothingCards([...clothingCards, card]);
       })
+      .then(() => {
+        closePopups();
+        setIsLoading(false);
+      })
       .catch((err) => {
         console.log(err);
       });
   };
 
   const handleEditSubmit = ({ name, avatarUrl }) => {
-    editProfile({ name, avatarUrl }, token);
+    setIsLoading(true);
 
-    setCurrentUser({
-      data: {
-        ...currentUser.data,
-        name: name,
-        avatar: avatarUrl,
-      },
-    });
+    editProfile({ name, avatarUrl }, token)
+      .then(() => {
+        setCurrentUser({
+          data: {
+            ...currentUser.data,
+            name: name,
+            avatar: avatarUrl,
+          },
+        });
+        closePopups();
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleDelete = (id) => {
+    setIsLoading(true);
+
     deleteCard(id, token)
       .then(() => {
         setClothingCards(
@@ -138,6 +185,7 @@ const App = () => {
           })
         );
         closePopups();
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -163,12 +211,10 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem("jwt");
 
-      if (jwt) {
-        setToken(localStorage.getItem("jwt"));
-      }
+    if (jwt) {
+      setToken(jwt);
 
       auth
         .checkToken(jwt)
@@ -211,7 +257,7 @@ const App = () => {
   React.useEffect(() => {
     const closeWithEsc = (evt) => {
       if (evt.key === "Escape") {
-        setActivePopup();
+        closePopups();
       }
     };
 
@@ -223,112 +269,114 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <CurrentUserContext.Provider value={currentUser}>
-        <CurrentTempUnitContext.Provider
-          value={{ currentTempUnit, handleSwitchToggle, value }}
-        >
-          <Header
+    <CurrentUserContext.Provider value={currentUser}>
+      <CurrentTempUnitContext.Provider
+        value={{ currentTempUnit, handleSwitchToggle, value }}
+      >
+        <Header
+          weatherData={weatherData}
+          handleClick={handleAddClick}
+          handleMobile={handleMobileClick}
+          isLoggedIn={isLoggedIn}
+          handleLogin={handleLoginClick}
+          handleRegister={handleRegisterClick}
+        />
+        <Route exact path="/">
+          <Main
             weatherData={weatherData}
+            cards={clothingCards}
+            onCardClick={handleCardClick}
+            banner={weatherBanner}
+            onLike={handleLike}
+            isLoggedIn={isLoggedIn}
+          />
+        </Route>
+        <ProtectedRoute path="/profile" isLoggedIn={isLoggedIn}>
+          <Profile
+            cards={clothingCards}
+            onCardClick={handleCardClick}
+            onAddClick={handleAddClick}
+            isLoggedIn={isLoggedIn}
+            editClick={handleEditClick}
+            logoutClick={handleLogoutClick}
+            onLike={handleLike}
+          />
+        </ProtectedRoute>
+        <Footer />
+        {activePopup === "add" && (
+          <AddItemPopup
+            onAddItem={handleAddSubmit}
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+            token={token}
+            isLoading={isLoading}
+          />
+        )}
+        {activePopup === "image" && (
+          <PopupWithImage
+            card={selectedCard}
+            onClose={closePopups}
+            onOutClick={handleOutClick}
+            onDeleteClick={handleDeleteClick}
+            isLoggedIn={isLoggedIn}
+          />
+        )}
+        {activePopup === "confirm" && (
+          <PopupWithConfirmation
+            onClose={closePopups}
+            onOutClick={handleOutClick}
+            onCancel={handleCancel}
+            onDelete={handleDelete}
+            card={selectedCard}
+            isLoading={isLoading}
+          />
+        )}
+        {activePopup === "mobile" && (
+          <MobileMenu
+            onClose={closePopups}
+            onOutClick={handleOutClick}
             handleClick={handleAddClick}
-            handleMobile={handleMobileClick}
             isLoggedIn={isLoggedIn}
             handleLogin={handleLoginClick}
             handleRegister={handleRegisterClick}
           />
-          <Route exact path="/">
-            <Main
-              weatherData={weatherData}
-              cards={clothingCards}
-              onCardClick={handleCardClick}
-              banner={weatherBanner}
-              onLike={handleLike}
-              isLoggedIn={isLoggedIn}
-            />
-          </Route>
-          <Route path="/profile">
-            {isLoggedIn ? <Redirect to="/profile" /> : <Redirect to="/" />}
-            <Profile
-              cards={clothingCards}
-              onCardClick={handleCardClick}
-              onAddClick={handleAddClick}
-              isLoggedIn={isLoggedIn}
-              editClick={handleEditClick}
-              logoutClick={handleLogoutClick}
-              onLike={handleLike}
-            />
-          </Route>
-          <Footer />
-          {activePopup === "add" && (
-            <AddItemPopup
-              onAddItem={handleAddSubmit}
-              closePopups={closePopups}
-              handleOutClick={handleOutClick}
-              token={token}
-            />
-          )}
-          {activePopup === "image" && (
-            <PopupWithImage
-              card={selectedCard}
-              onClose={closePopups}
-              onOutClick={handleOutClick}
-              onDeleteClick={handleDeleteClick}
-              isLoggedIn={isLoggedIn}
-            />
-          )}
-          {activePopup === "confirm" && (
-            <PopupWithConfirmation
-              onClose={closePopups}
-              onOutClick={handleOutClick}
-              onCancel={handleCancel}
-              onDelete={handleDelete}
-              card={selectedCard}
-            />
-          )}
-          {activePopup === "mobile" && (
-            <MobileMenu
-              onClose={closePopups}
-              onOutClick={handleOutClick}
-              handleClick={handleAddClick}
-              isLoggedIn={isLoggedIn}
-              handleLogin={handleLoginClick}
-              handleRegister={handleRegisterClick}
-            />
-          )}
-          {activePopup === "login" && (
-            <LoginPopup
-              closePopups={closePopups}
-              handleOutClick={handleOutClick}
-              handleLogin={handleLogin}
-              handleRegisterClick={handleRegisterClick}
-            />
-          )}
-          {activePopup === "register" && (
-            <RegisterPopup
-              closePopups={closePopups}
-              handleOutClick={handleOutClick}
-              handleLogin={handleLogin}
-              handleLoginClick={handleLoginClick}
-            />
-          )}
-          {activePopup === "edit" && (
-            <EditPopup
-              closePopups={closePopups}
-              handleOutClick={handleOutClick}
-              token={token}
-              handleEdit={handleEditSubmit}
-            />
-          )}
-          {activePopup === "logout" && (
-            <LogoutPopup
-              closePopups={closePopups}
-              handleOutClick={handleOutClick}
-              logout={handleLogout}
-            />
-          )}
-        </CurrentTempUnitContext.Provider>
-      </CurrentUserContext.Provider>
-    </>
+        )}
+        {activePopup === "login" && (
+          <LoginPopup
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+            handleLogin={handleLogin}
+            handleRegisterClick={handleRegisterClick}
+            isLoading={isLoading}
+          />
+        )}
+        {activePopup === "register" && (
+          <RegisterPopup
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+            handleLoginClick={handleLoginClick}
+            isLoading={isLoading}
+            handleRegister={handleRegister}
+          />
+        )}
+        {activePopup === "edit" && (
+          <EditPopup
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+            token={token}
+            handleEdit={handleEditSubmit}
+            isLoading={isLoading}
+          />
+        )}
+        {activePopup === "logout" && (
+          <LogoutPopup
+            closePopups={closePopups}
+            handleOutClick={handleOutClick}
+            logout={handleLogout}
+          />
+        )}
+      </CurrentTempUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 };
 

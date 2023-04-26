@@ -10,7 +10,7 @@ const WeatherCard = ({ weatherData, banner }) => {
   return (
     <section className="weather">
       <div className="weather__container">
-        <img src={banner} className="weather__banner" />
+        <img src={banner} className="weather__banner" alt="Weather banner" />
         <h2 className="weather__temp">{weatherData.temp[currentTempUnit]}</h2>
       </div>
     </section>
