@@ -15,6 +15,10 @@ const Header = ({
 }) => {
   const currentUser = useContext(CurrentUserContext);
 
+  const userData = currentUser.data
+    ? currentUser.data
+    : { name: "", avatar: "" };
+
   if (!weatherData) return null;
 
   const currentDate = new Date().toLocaleString("default", {
@@ -53,15 +57,15 @@ const Header = ({
               + Add clothes
             </button>
             <Link to="/profile" className="header__link">
-              <p className="header__name">{currentUser.data.name}</p>
-              {currentUser.data.avatar ? (
+              <p className="header__name">{userData.name}</p>
+              {userData.avatar ? (
                 <img
                   className="header__avatar"
-                  src={currentUser.data.avatar}
+                  src={userData.avatar}
                   alt="User avatar"
                 />
               ) : (
-                <p className="header__letter">{currentUser.data.name[0]}</p>
+                <p className="header__letter">{userData.name[0]}</p>
               )}
             </Link>
           </>

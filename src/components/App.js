@@ -40,12 +40,28 @@ const App = () => {
   const [token, setToken] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const history = useHistory();
+
   const handleLogin = (email, pw) => {
     auth
       .signIn(email, pw)
       .then((data) => {
-        if (data.jwt) {
-          setIsLoggedIn(true);
+        if (data.token) {
+          auth
+            .checkToken(token)
+            .then((res) => {
+              return res;
+            })
+            .then((data) => {
+              setCurrentUser(data);
+            })
+            .then(() => {
+              setIsLoggedIn(true);
+            })
+            .then(() => {
+              history.push("/profile");
+            })
+            .catch((err) => console.log(err));
         }
       })
       .then(() => {
