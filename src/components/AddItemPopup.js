@@ -29,7 +29,6 @@ const AddItemPopup = ({
     card.imageUrl = imageVal;
     card.weather = radioVal;
     onAddItem(card, token);
-    closePopups();
   };
 
   const onNameChange = (evt) => {

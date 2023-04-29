@@ -1,9 +1,7 @@
 import { baseUrl, processRes } from "./constants";
 
 export const getClothing = () => {
-  return fetch(`${baseUrl}/items`)
-    .then((res) => processRes(res))
-    .catch((err) => console.log(err));
+  return fetch(`${baseUrl}/items`).then((res) => processRes(res));
 };
 
 export const addClothing = (card, token) => {

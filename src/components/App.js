@@ -48,7 +48,7 @@ const App = () => {
       .then((data) => {
         if (data.token) {
           auth
-            .checkToken(token)
+            .checkToken(data.token)
             .then((res) => {
               return res;
             })
@@ -76,11 +76,15 @@ const App = () => {
     auth
       .signUp(avatar, email, name, pw)
       .then((res) => {
+        console.log(res ? true : false);
         if (res) {
-          handleLogin(email, pw);
+          setCurrentUser(res);
         } else {
           console.log("Something went wrong.");
         }
+      })
+      .then(() => {
+        handleLogin(email, pw);
       })
       .then(() => {
         closePopups();
