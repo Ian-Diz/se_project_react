@@ -95,7 +95,7 @@
 
 .profile__add {
   margin: 0 0 2px 20px;
-  opacity: 0.6;
+  color: rgba(0, 0, 0, 0.6);
   border: none;
   background-color: #f3f3f3;
   padding: 0;

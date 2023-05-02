@@ -19,7 +19,7 @@ const MobileMenu = ({
         <button type="button" className="menu__button" aria-label="Close">
           <img
             className="menu__close"
-            alt="Close button image"
+            alt="Close button"
             src={closeIcon}
             onClick={onClose}
           />
