@@ -18,7 +18,7 @@ export const longitude = -122.3;
 export const baseUrl =
   process.env.NODE_ENV === "production"
     ? "https://api.wtwr.ignorelist.com"
-    : "http://localhost:3001";
+    : "http://localhost:3000";
 
 export const dayBanners = {
   cloudy: dayCloudy,
