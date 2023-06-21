@@ -22,6 +22,16 @@
   padding: 0;
 }
 
+.popup__errors {
+  width: 200px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.2em;
+  margin: 3px 0 0 28px;
+  color: #ff0000;
+}
+
 .popup__text {
   margin: 24px 0 0 28px;
   font-size: 16px;
@@ -57,6 +67,10 @@
   .popup__input {
     width: 343px;
     margin: 8px 16px 0 0;
+  }
+
+  .popup__errors {
+    margin: 3px 0 0 16px;
   }
 
   .popup__text {

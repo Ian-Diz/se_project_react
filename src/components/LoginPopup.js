@@ -1,5 +1,6 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import FormValidation from "../hooks/FormValidation";
 
 const LoginPopup = ({
   closePopups,
@@ -7,9 +8,10 @@ const LoginPopup = ({
   handleLogin,
   handleRegisterClick,
   isLoading,
+  errorMessage,
 }) => {
-  const [emailVal, setEmailVal] = React.useState("");
-  const [pwVal, setPwVal] = React.useState("");
+  const { values, handleChange, errors, isValid, setValues, setIsValid } =
+    FormValidation();
 
   const buttonClasses = {
     mainButton: "popup__login",
@@ -23,24 +25,17 @@ const LoginPopup = ({
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    if (!emailVal || !pwVal) {
+    if (!values.email || !values.password) {
       return;
     }
 
-    handleLogin(emailVal, pwVal);
-  };
-
-  const onEmailChange = (evt) => {
-    setEmailVal(evt.target.value);
-  };
-
-  const onPwChange = (evt) => {
-    setPwVal(evt.target.value);
+    handleLogin(values.email, values.password);
   };
 
   React.useEffect(() => {
-    setEmailVal("");
-    setPwVal("");
+    setValues({ ...values, email: "", password: "" });
+    setIsValid(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -53,6 +48,8 @@ const LoginPopup = ({
       handleSubmit={handleSubmit}
       buttonClass={buttonClasses}
       otherButtonClick={handleRegisterClick}
+      isValid={isValid}
+      errorMessage={errorMessage}
     >
       <label className="popup__label">
         Email
@@ -65,10 +62,10 @@ const LoginPopup = ({
           id="inputEmail"
           minLength="1"
           maxLength="30"
-          value={emailVal}
-          onChange={onEmailChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.email && <span className="popup__errors">{errors.email}</span>}
       <label className="popup__label">
         Password
         <input
@@ -78,10 +75,12 @@ const LoginPopup = ({
           name="password"
           id="inputPassword"
           type="password"
-          value={pwVal}
-          onChange={onPwChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.password && (
+        <span className="popup__errors">{errors.password}</span>
+      )}
     </PopupWithForm>
   );
 };

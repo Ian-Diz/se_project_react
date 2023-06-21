@@ -1,5 +1,6 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import FormValidation from "../hooks/FormValidation";
 
 const AddItemPopup = ({
   onAddItem,
@@ -8,9 +9,8 @@ const AddItemPopup = ({
   token,
   isLoading,
 }) => {
-  const [nameVal, setNameVal] = React.useState("");
-  const [imageVal, setImageVal] = React.useState("");
-  const [radioVal, setRadioVal] = React.useState("");
+  const { values, handleChange, errors, isValid, setValues, setIsValid } =
+    FormValidation();
 
   const buttonClasses = {
     mainButton: "popup__add",
@@ -25,28 +25,18 @@ const AddItemPopup = ({
   const handleSubmit = (evt) => {
     evt.preventDefault();
     const card = {};
-    card.name = nameVal;
-    card.imageUrl = imageVal;
-    card.weather = radioVal;
+    card.name = values.name;
+    card.imageUrl = values.imageURL;
+    card.weather = values.tempRange;
     onAddItem(card, token);
   };
 
-  const onNameChange = (evt) => {
-    setNameVal(evt.target.value);
-  };
-
-  const onImageChange = (evt) => {
-    setImageVal(evt.target.value);
-  };
-
-  const onRadioChange = (evt) => {
-    setRadioVal(evt.target.value);
-  };
+  console.log(values);
 
   React.useEffect(() => {
-    setNameVal("");
-    setImageVal("");
-    setRadioVal("");
+    setValues({ ...values, name: "", imageURL: "", tempRange: "" });
+    setIsValid(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -58,6 +48,7 @@ const AddItemPopup = ({
       onOutClick={handleOutClick}
       handleSubmit={handleSubmit}
       buttonClass={buttonClasses}
+      isValid={isValid}
     >
       <label className="popup__label">
         Name
@@ -70,10 +61,10 @@ const AddItemPopup = ({
           id="inputName"
           minLength="1"
           maxLength="30"
-          value={nameVal}
-          onChange={onNameChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.name && <span className="popup__errors">{errors.name}</span>}
       <label className="popup__label">
         Image
         <input
@@ -83,12 +74,14 @@ const AddItemPopup = ({
           name="imageURL"
           id="inputURL"
           type="url"
-          value={imageVal}
-          onChange={onImageChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.imageURL && (
+        <span className="popup__errors">{errors.imageURL}</span>
+      )}
       <p className="popup__text">Select the weather type:</p>
-      <div className="popup__inputs_container" onChange={onRadioChange}>
+      <div className="popup__inputs_container" onChange={handleChange}>
         <div>
           <input
             type="radio"
@@ -96,6 +89,7 @@ const AddItemPopup = ({
             name="tempRange"
             value="hot"
             className="popup__input_button"
+            required
           />
           <label className="popup__label_multiple" htmlFor="hot">
             Hot
@@ -108,6 +102,7 @@ const AddItemPopup = ({
             name="tempRange"
             value="warm"
             className="popup__input_button"
+            required
           />
           <label className="popup__label_multiple" htmlFor="warm">
             Warm
@@ -120,6 +115,7 @@ const AddItemPopup = ({
             name="tempRange"
             value="cold"
             className="popup__input_button"
+            required
           />
           <label className="popup__label_multiple" htmlFor="cold">
             Cold

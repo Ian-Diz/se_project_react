@@ -39,6 +39,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = React.useState({});
   const [token, setToken] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const history = useHistory();
 
@@ -67,7 +68,11 @@ const App = () => {
       .then(() => {
         closePopups();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage("Username or password is incorrect");
+        setIsLoading(false);
+      });
   };
 
   const handleRegister = (avatar, email, name, pw) => {
@@ -76,7 +81,6 @@ const App = () => {
     auth
       .signUp(avatar, email, name, pw)
       .then((res) => {
-        console.log(res ? true : false);
         if (res) {
           setCurrentUser(res);
         } else {
@@ -90,7 +94,11 @@ const App = () => {
         closePopups();
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage("This email is already in use");
+        setIsLoading(false);
+      });
   };
 
   const handleLogout = () => {
@@ -110,6 +118,7 @@ const App = () => {
 
   const handleLoginClick = () => {
     setActivePopup("login");
+    setErrorMessage("");
   };
 
   const handleLogoutClick = () => {
@@ -122,6 +131,7 @@ const App = () => {
 
   const handleRegisterClick = () => {
     setActivePopup("register");
+    setErrorMessage("");
   };
 
   const handleMobileClick = () => {
@@ -368,6 +378,7 @@ const App = () => {
             handleLogin={handleLogin}
             handleRegisterClick={handleRegisterClick}
             isLoading={isLoading}
+            errorMessage={errorMessage}
           />
         )}
         {activePopup === "register" && (
@@ -377,6 +388,7 @@ const App = () => {
             handleLoginClick={handleLoginClick}
             isLoading={isLoading}
             handleRegister={handleRegister}
+            errorMessage={errorMessage}
           />
         )}
         {activePopup === "edit" && (

@@ -11,6 +11,8 @@ const PopupWithForm = ({
   handleSubmit,
   buttonClass,
   otherButtonClick,
+  isValid,
+  errorMessage,
 }) => {
   if (!buttonText.other) {
     buttonText.other = null;
@@ -37,6 +39,7 @@ const PopupWithForm = ({
               type="submit"
               aria-label="Save"
               id="addSave"
+              disabled={!isValid}
             >
               {buttonText.button}
             </button>
@@ -48,6 +51,7 @@ const PopupWithForm = ({
               {buttonText.other}
             </button>
           </div>
+          <span className="popup__errors-signup">{errorMessage}</span>
         </fieldset>
       </form>
     </div>

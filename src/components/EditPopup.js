@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import FormValidation from "../hooks/FormValidation";
 
 const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const [nameVal, setNameVal] = React.useState("");
-  const [avaVal, setAvaVal] = React.useState("");
+  const { values, handleChange, errors, isValid, setValues } = FormValidation();
 
   const buttonClasses = {
     mainButton: "popup__add",
@@ -21,22 +21,18 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    const updatedInfo = { name: nameVal, avatarUrl: avaVal };
+    const updatedInfo = { name: values.name, avatarUrl: values.avatarUrl };
 
     handleEdit(updatedInfo);
   };
 
-  const onNameChange = (evt) => {
-    setNameVal(evt.target.value);
-  };
-
-  const onAvaChange = (evt) => {
-    setAvaVal(evt.target.value);
-  };
-
   React.useEffect(() => {
-    setNameVal(currentUser.data.name);
-    setAvaVal(currentUser.data.avatar);
+    setValues({
+      ...values,
+      name: currentUser.data.name,
+      avatarUrl: currentUser.data.avatar,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -48,6 +44,7 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
       onOutClick={handleOutClick}
       handleSubmit={handleSubmit}
       buttonClass={buttonClasses}
+      isValid={isValid}
     >
       <label className="popup__label">
         Name*
@@ -60,10 +57,11 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
           required
           minLength="1"
           maxLength="30"
-          value={nameVal}
-          onChange={onNameChange}
+          defaultValue={currentUser.data.name}
+          onChange={handleChange}
         />
       </label>
+      {errors.name && <span className="popup__errors">{errors.name}</span>}
       <label className="popup__label">
         Avatar
         <input
@@ -72,10 +70,13 @@ const EditPopup = ({ closePopups, handleOutClick, handleEdit }) => {
           name="avatarUrl"
           id="inputAvatarUrl"
           type="url"
-          value={avaVal}
-          onChange={onAvaChange}
+          defaultValue={currentUser.data.avatar}
+          onChange={handleChange}
         />
       </label>
+      {errors.avatarUrl && (
+        <span className="popup__errors">{errors.avatarUrl}</span>
+      )}
     </PopupWithForm>
   );
 };

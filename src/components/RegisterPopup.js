@@ -1,5 +1,6 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import FormValidation from "../hooks/FormValidation";
 
 const RegisterPopup = ({
   closePopups,
@@ -7,11 +8,10 @@ const RegisterPopup = ({
   handleRegister,
   handleLoginClick,
   isLoading,
+  errorMessage,
 }) => {
-  const [emailVal, setEmailVal] = React.useState("");
-  const [pwVal, setPwVal] = React.useState("");
-  const [nameVal, setNameVal] = React.useState("");
-  const [avaVal, setAvaVal] = React.useState("");
+  const { values, handleChange, errors, isValid, setValues, setIsValid } =
+    FormValidation();
 
   const buttonClasses = {
     mainButton: "popup__login",
@@ -25,30 +25,18 @@ const RegisterPopup = ({
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    handleRegister(avaVal, emailVal, nameVal, pwVal);
-  };
-
-  const onEmailChange = (evt) => {
-    setEmailVal(evt.target.value);
-  };
-
-  const onPwChange = (evt) => {
-    setPwVal(evt.target.value);
-  };
-
-  const onNameChange = (evt) => {
-    setNameVal(evt.target.value);
-  };
-
-  const onAvaChange = (evt) => {
-    setAvaVal(evt.target.value);
+    handleRegister(
+      values.avatarUrl,
+      values.email,
+      values.name,
+      values.password
+    );
   };
 
   React.useEffect(() => {
-    setEmailVal("");
-    setPwVal("");
-    setNameVal("");
-    setAvaVal("");
+    setValues({ ...values, email: "", password: "", name: "", avatarUrl: "" });
+    setIsValid(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -61,6 +49,8 @@ const RegisterPopup = ({
       handleSubmit={handleSubmit}
       buttonClass={buttonClasses}
       otherButtonClick={handleLoginClick}
+      isValid={isValid}
+      errorMessage={errorMessage}
     >
       <label className="popup__label">
         Email*
@@ -73,10 +63,10 @@ const RegisterPopup = ({
           id="inputEmail"
           minLength="1"
           maxLength="30"
-          value={emailVal}
-          onChange={onEmailChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.email && <span className="popup__errors">{errors.email}</span>}
       <label className="popup__label">
         Password*
         <input
@@ -86,10 +76,12 @@ const RegisterPopup = ({
           name="password"
           id="inputPassword"
           type="password"
-          value={pwVal}
-          onChange={onPwChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.password && (
+        <span className="popup__errors">{errors.password}</span>
+      )}
       <label className="popup__label">
         Name*
         <input
@@ -101,10 +93,10 @@ const RegisterPopup = ({
           required
           minLength="1"
           maxLength="30"
-          value={nameVal}
-          onChange={onNameChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.name && <span className="popup__errors">{errors.name}</span>}
       <label className="popup__label">
         Avatar
         <input
@@ -113,10 +105,12 @@ const RegisterPopup = ({
           name="avatarUrl"
           id="inputAvatarUrl"
           type="url"
-          value={avaVal}
-          onChange={onAvaChange}
+          onChange={handleChange}
         />
       </label>
+      {errors.avatarUrl && (
+        <span className="popup__errors">{errors.avatarUrl}</span>
+      )}
     </PopupWithForm>
   );
 };
