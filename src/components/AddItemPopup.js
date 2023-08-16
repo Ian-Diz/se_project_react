@@ -31,8 +31,6 @@ const AddItemPopup = ({
     onAddItem(card, token);
   };
 
-  console.log(values);
-
   React.useEffect(() => {
     setValues({ ...values, name: "", imageURL: "", tempRange: "" });
     setIsValid(false);
