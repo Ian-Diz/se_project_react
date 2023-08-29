@@ -18,11 +18,11 @@ const Main = ({
   const temp = Math.round(weatherData.temp.calc);
 
   const getTempRange = () => {
-    if (temp >= 85) {
+    if (temp >= 80) {
       return "hot";
-    } else if (temp >= 65 && temp <= 84) {
+    } else if (temp >= 60 && temp <= 79) {
       return "warm";
-    } else if (temp <= 64) {
+    } else if (temp <= 59) {
       return "cold";
     }
   };
