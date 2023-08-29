@@ -2,7 +2,7 @@
 
 ## About the project
 
-The idea of the application is pretty simple - we make a call to an API, which then responds with the daily weather forecast. We collect the weather data, process it, and then based on the forecast, we recommend suitable clothing to the user.
+This project provides a user-friendly platform that offers clothing recommendations based on the current temperature. By integrating real-time temperature data, the system suggests appropriate attire, making it easier for users to dress comfortably according to the weather. It's a practical tool that streamlines the process of deciding what to wear while considering the day's temperature fluctuations.
 
 ## Links
 
