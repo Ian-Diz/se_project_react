@@ -20,9 +20,9 @@ const Main = ({
   const getTempRange = () => {
     if (temp >= 85) {
       return "hot";
-    } else if (temp >= 70 && temp <= 84) {
+    } else if (temp >= 65 && temp <= 84) {
       return "warm";
-    } else if (temp <= 49) {
+    } else if (temp <= 64) {
       return "cold";
     }
   };
